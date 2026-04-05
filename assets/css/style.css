@@ -830,13 +830,6 @@ details.faq-item .faq-a strong {
   margin-bottom: 1rem;
 }
 
-.sa-page .sa-output-title {
-  font-size: clamp(0.75rem, 3.2vw, 1rem);
-  max-width: none;
-  margin-bottom: 10px;
-  text-align: left;
-}
-
 .sa-page .section-desc {
   font-size: 1.15rem;
 }
@@ -846,6 +839,103 @@ details.faq-item .faq-a strong {
   font-size: 1.2rem;
   max-width: 52rem;
   margin-bottom: 1.25rem;
+}
+
+/* ComfyUI-inspired node graph shell for the analyst dialog */
+.sa-workflow {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 38rem;
+  margin-bottom: 1.5rem;
+}
+
+.sa-workflow-legend {
+  font-size: 1.05rem;
+  color: var(--px-muted);
+  margin: 0 0 12px 4px;
+  line-height: 1.4;
+}
+
+.sa-node {
+  border: 4px solid var(--px-border-dark);
+  background: var(--px-bg-deep);
+  box-shadow: 6px 6px 0 var(--px-shadow);
+  overflow: hidden;
+}
+
+.sa-node-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: linear-gradient(180deg, #1c1230 0%, #120a1f 100%);
+  border-bottom: 3px solid rgba(92, 255, 215, 0.25);
+  font-family: var(--font-title);
+  font-size: clamp(0.48rem, 2vw, 0.72rem);
+  line-height: 1.5;
+  color: var(--px-yellow);
+  text-shadow: 2px 2px 0 var(--px-shadow);
+}
+
+.sa-node-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.45);
+}
+
+.sa-node-dot--in {
+  background: #3cff9e;
+}
+
+.sa-node-dot--out {
+  background: #6eb5ff;
+}
+
+.sa-node-title {
+  flex: 1;
+  text-align: left;
+}
+
+.sa-node-port {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--px-cyan);
+  border-radius: 3px;
+  background: var(--px-bg-deep);
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.sa-node-body {
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+
+.sa-node--output .sa-node-body {
+  padding: 1rem 1.25rem 1.25rem;
+  min-height: 12rem;
+  background: #0d0818;
+}
+
+.sa-workflow-edge {
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  pointer-events: none;
+}
+
+.sa-workflow-edge::before {
+  content: "";
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--px-cyan) 0%, var(--px-pink) 100%);
+  border-radius: 2px;
+  opacity: 0.75;
+  box-shadow: 0 0 12px rgba(92, 255, 215, 0.35);
 }
 
 .sa-panel {
@@ -860,6 +950,10 @@ details.faq-item .faq-a strong {
   display: grid;
   gap: 14px;
   max-width: 32rem;
+}
+
+.sa-node .sa-form-grid {
+  max-width: none;
 }
 
 .sa-form-grid label {

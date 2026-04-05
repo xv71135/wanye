@@ -55,24 +55,42 @@
           数据仅为公开延迟行情与 RSS，不含付费终端级实时数据。
         </div>
 
-        <div class="sa-panel">
-          <form id="sa-form" class="sa-form-grid" autocomplete="off">
-            <label>股票代码
-              <input id="sa-symbol" name="symbol" type="text" placeholder="如 600519、000001、AAPL" required maxlength="32">
-            </label>
-            <label>可选追问
-              <textarea id="sa-question" name="question" rows="5" maxlength="2000" placeholder="例如：若业绩不及预期，应优先关注哪些风险？"></textarea>
-            </label>
-            <div class="sa-actions">
-              <button type="submit" class="btn btn-primary" id="sa-submit">运行流水线</button>
-            </div>
-            <p id="sa-status" class="sa-status" aria-live="polite"></p>
-          </form>
-        </div>
+        <div class="sa-workflow" aria-label="流水线节点：输入与输出">
+          <p class="sa-workflow-legend">LangGraph：<strong>拉数</strong> → <strong>校验</strong> → <strong>写稿</strong> → <strong>复核</strong>（ComfyUI 风格节点布局）</p>
 
-        <div class="sa-output-wrap">
-          <h2 class="section-title sa-output-title">研报输出</h2>
-          <pre id="sa-output" class="sa-output" aria-live="polite"></pre>
+          <div class="sa-node sa-node--input">
+            <div class="sa-node-head">
+              <span class="sa-node-dot sa-node-dot--in" aria-hidden="true"></span>
+              <span class="sa-node-title">流水线输入</span>
+              <span class="sa-node-port" aria-hidden="true" title="输出桩"></span>
+            </div>
+            <div class="sa-node-body">
+              <form id="sa-form" class="sa-form-grid" autocomplete="off">
+                <label>股票代码
+                  <input id="sa-symbol" name="symbol" type="text" placeholder="如 600519、000001、AAPL" required maxlength="32">
+                </label>
+                <label>可选追问
+                  <textarea id="sa-question" name="question" rows="5" maxlength="2000" placeholder="例如：若业绩不及预期，应优先关注哪些风险？"></textarea>
+                </label>
+                <div class="sa-actions">
+                  <button type="submit" class="btn btn-primary" id="sa-submit">运行流水线</button>
+                </div>
+                <p id="sa-status" class="sa-status" aria-live="polite"></p>
+              </form>
+            </div>
+          </div>
+
+          <div class="sa-workflow-edge" aria-hidden="true"></div>
+
+          <div class="sa-node sa-node--output">
+            <div class="sa-node-head">
+              <span class="sa-node-dot sa-node-dot--out" aria-hidden="true"></span>
+              <span class="sa-node-title">研报输出</span>
+            </div>
+            <div class="sa-node-body">
+              <pre id="sa-output" class="sa-output" aria-live="polite"></pre>
+            </div>
+          </div>
         </div>
 
         <p class="section-desc" style="margin-top:1.5rem;">
@@ -101,6 +119,6 @@
     window.SA_MSG_LOADING = "正在执行 LangGraph 流水线（可能需要约一分钟）…";
     window.SA_MSG_DONE = "已完成。";
   </script>
-  <script src="/assets/js/stock-analyst.js?v=6" defer></script>
+  <script src="/assets/js/stock-analyst.js?v=7" defer></script>
 </body>
 </html>
