@@ -12,9 +12,8 @@
   <link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/stock-analyst.html">
   <link rel="icon" type="image/png" href="/assets/mascot-trio-official.png">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <!-- 默认走同源 Pages 转发。若长期 502：在 VPS 配 Nginx+HTTPS 后，可新增下行并填你的 https API 根（无尾斜杠），浏览器将直连、绕过边缘转发：
-  <meta name="stock-analyst-api-direct" content="https://你的API域名">
-  -->
+  <!-- 浏览器直连 HTTPS API，绕过 Pages→http:8788 的 1016；不配则仅用 stock-analyst-api-base 同源转发 -->
+  <meta name="stock-analyst-api-direct" content="https://api.3737-k.info">
   <meta name="stock-analyst-api-base" content="https://3737-k.info/api">
 </head>
 <body class="sa-page">
@@ -123,6 +122,6 @@
     window.SA_MSG_LOADING = "正在执行 LangGraph 流水线（可能需要约一分钟）…";
     window.SA_MSG_DONE = "已完成。";
   </script>
-  <script src="/assets/js/stock-analyst.js?v=10" defer></script>
+  <script src="/assets/js/stock-analyst.js?v=11" defer></script>
 </body>
 </html>

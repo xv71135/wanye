@@ -12,9 +12,8 @@
   <link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/stock-analyst.html">
   <link rel="icon" type="image/png" href="/assets/mascot-trio-official.png">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <!-- Default: same-origin Pages proxy. If you always get 502: put HTTPS API behind Nginx, then add the line below (no trailing slash) for browser-direct calls:
-  <meta name="stock-analyst-api-direct" content="https://your-api-hostname">
-  -->
+  <!-- Browser calls HTTPS API directly (avoids Pages→http:8788 1016); omit to use same-origin proxy only -->
+  <meta name="stock-analyst-api-direct" content="https://api.3737-k.info">
   <meta name="stock-analyst-api-base" content="https://3737-k.info/api">
 </head>
 <body class="sa-page">
@@ -123,6 +122,6 @@
     window.SA_MSG_LOADING = "Running LangGraph pipeline (may take a minute)…";
     window.SA_MSG_DONE = "Finished.";
   </script>
-  <script src="/assets/js/stock-analyst.js?v=10" defer></script>
+  <script src="/assets/js/stock-analyst.js?v=11" defer></script>
 </body>
 </html>
