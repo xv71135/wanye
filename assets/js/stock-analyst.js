@@ -75,7 +75,7 @@
         err = String(err);
         if (/^[\s]*<!DOCTYPE/i.test(err) || /cf-error-details|cloudflare/i.test(err)) {
           err =
-            "网关 502：Cloudflare 未从上游拿到有效响应（常见：边缘连 VPS 失败、Pages Function 超时或崩溃）。请查 VPS 8788、安全组与 Pages 部署日志。";
+            "网关 502：若走同源 /api，多为 Cloudflare Function 转发超时（分析常超 1～2 分钟）。页面已优先 stock-analyst-api-direct 直连 https://api；请硬刷新。仍 502 时查 VPS Nginx proxy_read_timeout 与 API 日志。";
         }
         if (data.hint) err = err + " " + String(data.hint);
         setStatus(err, true);
