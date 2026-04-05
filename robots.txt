@@ -1,0 +1,5 @@
+# https://3737-k.info — replace with your canonical origin if different
+User-agent: *
+Allow: /
+
+Sitemap: https://3737-k.info/sitemap.xml

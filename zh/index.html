@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>人工智能体与用户体验中心｜多智能体编排与大模型智能体</title>
+  <meta name="description" content="聚焦 AI 智能体、自主智能体、多智能体协作与大模型编排，结合人机交互与可信 AI 用户体验。面向访客可玩、可分享、可订阅的智能体产品与内容矩阵。">
+  <meta name="keywords" content="人工智能体,AI智能体,多智能体,自主智能体,大模型智能体,智能体编排,对话式AI,AI用户体验,人机交互,智能体框架,工作流自动化,可信AI,生成式AI产品">
+  <meta name="author" content="Agentic Labs">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="theme-color" content="#120a1f">
+  <link rel="canonical" href="https://3737-k.info/zh/">
+  <link rel="alternate" hreflang="en" href="https://3737-k.info/en/">
+  <link rel="alternate" hreflang="zh-CN" href="https://3737-k.info/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:url" content="https://3737-k.info/zh/">
+  <meta property="og:site_name" content="Agentic Labs">
+  <meta property="og:title" content="人工智能体与用户体验中心｜Agentic Labs">
+  <meta property="og:description" content="多智能体、对话式 AI 与可信用户体验。互动演示与会员订阅即将开放。">
+  <meta property="og:image" content="https://3737-k.info/assets/mascot-trio-official.png">
+  <meta property="og:image:width" content="364">
+  <meta property="og:image:height" content="367">
+  <meta property="og:image:alt" content="Agentic Labs 像素吉祥物 — 三只屏幕脸小机器人">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="人工智能体与用户体验中心">
+  <meta name="twitter:description" content="多智能体编排、对话式 AI 与产品级人机交互。">
+  <meta name="twitter:image" content="https://3737-k.info/assets/mascot-trio-official.png">
+
+  <link rel="icon" type="image/png" href="../assets/mascot-trio-official.png">
+  <link rel="apple-touch-icon" href="../assets/mascot-trio-official.png">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://3737-k.info/#organization",
+        "name": "Agentic Labs",
+        "url": "https://3737-k.info/zh/",
+        "logo": "https://3737-k.info/assets/mascot-trio-official.png",
+        "description": "聚焦人工智能体、多智能体系统与以用户为中心的可信 AI 体验。",
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://3737-k.info/#website",
+        "url": "https://3737-k.info/",
+        "name": "Agentic Labs",
+        "publisher": { "@id": "https://3737-k.info/#organization" },
+        "inLanguage": ["en", "zh-CN"],
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://3737-k.info/zh/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://3737-k.info/zh/#webpage",
+        "url": "https://3737-k.info/zh/",
+        "name": "人工智能体与用户体验中心",
+        "isPartOf": { "@id": "https://3737-k.info/#website" },
+        "inLanguage": "zh-CN",
+        "description": "AI 智能体、多智能体协作、对话式 AI 与可信用户体验。"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "什么是人工智能体（AI Agent）？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "人工智能体通常指以大模型为核心、具备工具调用、记忆与目标规划能力的系统，可单机运行也可多智能体分工协作。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "为什么智能体产品要重视用户体验？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "清晰的反馈、可撤销操作、工具调用透明与安全边界，能显著提升信任度与任务完成率，利于留存与订阅转化。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "未来会提供注册和订阅吗？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "会。我们将提供注册、会员与更高用量的订阅方案，并配套隐私政策与服务条款。"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo-lockup" href="index.html">
+        <img class="logo-mascot-img" src="../assets/mascot-trio-official.png" width="364" height="367" alt="">
+        <span class="logo-text">Agentic <span>Labs</span></span>
+      </a>
+      <nav class="nav-main" aria-label="主导航">
+        <a href="#agents">智能体</a>
+        <a href="#ux">体验与信任</a>
+        <a href="#roadmap">路线图</a>
+        <a href="#directory">职业图鉴</a>
+        <a href="#faq">常见问题</a>
+        <div class="lang-switch" role="group" aria-label="语言">
+          <a href="../en/index.html">EN</a>
+          <a href="index.html" aria-current="true">中文</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <p class="hero-eyebrow">认识像素小队 · 官方吉祥物</p>
+      <h1 id="hero-title">让 <span class="headline-accent">AI 智能体</span> 既好玩，又值得信赖</h1>
+      <p class="hero-lead">
+        我们聚焦<strong>多智能体编排</strong>、<strong>对话式 AI</strong> 与可落地的<strong>人机交互</strong>范式 ——
+        为「访客愿意玩、愿意分享、愿意付费」而设计。
+      </p>
+      <figure class="hero-media hero-media--mascot">
+        <img
+          src="../assets/mascot-trio-official.png"
+          width="364"
+          height="367"
+          alt="三只可爱的像素小机器人，长方形发光屏幕脸与侧耳结构 — Agentic Labs 吉祥物。"
+          fetchpriority="high"
+          decoding="async">
+        <figcaption class="hero-mascot-caption">三只<strong>智能体小机器人</strong>：同款萌系外壳、不同屏幕光色 —— 让「智能体」看起来亲切、好记，而不是冷冰冰的黑箱。</figcaption>
+      </figure>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#waitlist">加入候补名单</a>
+        <a class="btn btn-ghost" href="#agents">了解智能体矩阵</a>
+      </div>
+      <figure class="hero-media hero-banner-secondary">
+        <img
+          src="../assets/pixel-hero-wide.png"
+          width="1280"
+          height="640"
+          alt=""
+          role="presentation"
+          loading="lazy"
+          decoding="async">
+      </figure>
+    </section>
+
+    <section id="agents" class="section" aria-labelledby="agents-title">
+      <div class="section-inner">
+      <h2 id="agents-title" class="section-title">正在搭建的智能体矩阵</h2>
+      <p class="section-desc">
+        从<strong>浏览器自动化智能体</strong>到<strong>角色扮演多智能体</strong>与<strong>代码生成助手</strong>，
+        每条线独立介绍页与演示界面，并配公平用量与风控策略。
+      </p>
+      <div class="card-grid">
+        <article class="card">
+          <div class="card-icon" aria-hidden="true">◎</div>
+          <h3>多模态与浏览器智能体</h3>
+          <p>在护栏内操作界面，适合短视频传播与「一眼能懂」的公开展示。</p>
+        </article>
+        <article class="card">
+          <div class="card-icon" aria-hidden="true">◇</div>
+          <h3>多智能体协作</h3>
+          <p>研究员、撰稿人、审核员等角色协同，适合剧情化互动与共创内容。</p>
+        </article>
+        <article class="card">
+          <div class="card-icon" aria-hidden="true">▣</div>
+          <h3>产品与 UX 副驾</h3>
+          <p>透明工具调用、撤销、升级人工服务等模式，服务真实产品转化。</p>
+        </article>
+      </div>
+      </div>
+    </section>
+
+    <section id="directory" class="section agent-directory" aria-labelledby="directory-title">
+      <div class="section-inner">
+        <h2 id="directory-title" class="section-title">按职业浏览智能体</h2>
+        <p class="section-desc">按<strong>职业</strong>划分槽位，每个智能体配有像素风头像与独立页（将上线）。当前均未开放，统一显示灰色「即将推出」状态。</p>
+
+        <div class="agent-category">
+          <h3 class="agent-category-title">商业与职能</h3>
+          <div class="agent-grid">
+            <article class="agent-card agent-card--soon">
+              <div class="agent-avatar" aria-hidden="true"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect fill="#1e1a28" width="16" height="16"/><rect fill="#6d6580" x="3" y="4" width="10" height="8"/><rect fill="#4a4358" x="4" y="5" width="8" height="1"/><rect fill="#9a92a8" x="4" y="7" width="2" height="1"/><rect fill="#9a92a8" x="6" y="7" width="2" height="1"/><rect fill="#9a92a8" x="8" y="7" width="2" height="1"/><rect fill="#9a92a8" x="10" y="7" width="2" height="1"/><rect fill="#9a92a8" x="4" y="9" width="2" height="1"/><rect fill="#9a92a8" x="6" y="9" width="2" height="1"/><rect fill="#9a92a8" x="8" y="9" width="2" height="1"/><rect fill="#9a92a8" x="10" y="9" width="2" height="1"/></svg></div>
+              <h4>会计智能体</h4>
+              <p>对账、凭证摘要、税务口径问答与报表草稿辅助。</p>
+              <span class="agent-badge">即将推出</span>
+            </article>
+            <article class="agent-card agent-card--soon">
+              <div class="agent-avatar" aria-hidden="true"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect fill="#1e1a28" width="16" height="16"/><rect fill="#5a5468" x="2" y="10" width="12" height="2"/><rect fill="#7d7588" x="7" y="3" width="2" height="8"/><rect fill="#6d6580" x="5" y="2" width="6" height="2"/><rect fill="#6d6580" x="4" y="4" width="2" height="5"/><rect fill="#6d6580" x="10" y="4" width="2" height="5"/></svg></div>
+              <h4>法务智能体</h4>
+              <p>合同要点提取、条款对比与风险清单（非律师意见）。</p>
+              <span class="agent-badge">即将推出</span>
+            </article>
+            <article class="agent-card agent-card--soon">
+              <div class="agent-avatar" aria-hidden="true"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect fill="#1e1a28" width="16" height="16"/><rect fill="#6d6580" x="3" y="5" width="4" height="6"/><rect fill="#6d6580" x="9" y="5" width="4" height="6"/><rect fill="#8a8298" x="4" y="3" width="2" height="2"/><rect fill="#8a8298" x="10" y="3" width="2" height="2"/><rect fill="#4a4358" x="7" y="8" width="2" height="3"/></svg></div>
+              <h4>人事智能体</h4>
+              <p>岗位描述、面试题纲、员工手册问答与流程说明。</p>
+              <span class="agent-badge">即将推出</span>
+            </article>
+            <article class="agent-card agent-card--soon">
+              <div class="agent-avatar" aria-hidden="true"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect fill="#1e1a28" width="16" height="16"/><rect fill="#6d6580" x="2" y="7" width="6" height="4"/><rect fill="#4a4358" x="3" y="6" width="4" height="1"/><rect fill="#8a8298" x="9" y="5" width="1" height="3"/><rect fill="#8a8298" x="10" y="4" width="4" height="2"/><rect fill="#8a8298" x="12" y="6" width="2" height="1"/></svg></div>
+              <h4>市场营销智能体</h4>
+              <p>卖点提炼、多平台文案、活动脑暴与简单投放话术。</p>
+              <span class="agent-badge">即将推出</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="agent-category">
+          <h3 class="agent-category-title">技术与研究</h3>
+          <div class="agent-grid">
+            <article class="agent-card agent-card--soon">
+              <div class="agent-avatar" aria-hidden="true"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect fill="#1e1a28" width="16" height="16"/><rect fill="#6d6580" x="4" y="3" width="8" height="3"/><rect fill="#5a5468" x="3" y="6" width="10" height="2"/><rect fill="#7d7588" x="5" y="8" width="6" height="6"/><rect fill="#4a4358" x="7" y="10" width="2" height="2"/></svg></div>
+              <h4>工程师智能体</h4>
+              <p>代码解释、重构建议、脚手架命令与缺陷排查思路。</p>
+              <span class="agent-badge">即将推出</span>
+            </article>
+            <article class="agent-card agent-card--soon">
+              <div class="agent-avatar" aria-hidden="true"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect fill="#1e1a28" width="16" height="16"/><rect fill="#6d6580" x="4" y="8" width="2" height="5"/><rect fill="#8a8298" x="7" y="5" width="2" height="8"/><rect fill="#5a5468" x="10" y="7" width="2" height="6"/><rect fill="#4a4358" x="3" y="6" width="10" height="1"/></svg></div>
+              <h4>数据分析师智能体</h4>
+              <p>SQL 思路、指标定义、看板解读与实验设计草案。</p>
+              <span class="agent-badge">即将推出</span>
+            </article>
+            <article class="agent-card agent-card--soon">
+              <div class="agent-avatar" aria-hidden="true"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect fill="#1e1a28" width="16" height="16"/><rect fill="#5a5468" x="2" y="2" width="12" height="8"/><rect fill="#6d6580" x="3" y="3" width="4" height="2"/><rect fill="#6d6580" x="8" y="3" width="4" height="2"/><rect fill="#8a8298" x="3" y="6" width="10" height="1"/><rect fill="#7d7588" x="6" y="11" width="4" height="3"/><rect fill="#4a4358" x="7" y="10" width="2" height="1"/></svg></div>
+              <h4>架构师智能体</h4>
+              <p>模块边界、技术选型对比、容量与可观测性检查清单。</p>
+              <span class="agent-badge">即将推出</span>
+            </article>
+            <article class="agent-card agent-card--soon">
+              <div class="agent-avatar" aria-hidden="true"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect fill="#1e1a28" width="16" height="16"/><rect fill="#6d6580" x="5" y="2" width="6" height="8"/><rect fill="#8a8298" x="6" y="4" width="1" height="3"/><rect fill="#4a4358" x="4" y="11" width="8" height="3"/><rect fill="#5a5468" x="7" y="10" width="2" height="2"/></svg></div>
+              <h4>研究员智能体</h4>
+              <p>文献速览、假设梳理、实验步骤与工作草稿（需人工复核）。</p>
+              <span class="agent-badge">即将推出</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="agent-category">
+          <h3 class="agent-category-title">产品、创意与服务</h3>
+          <div class="agent-grid">
+            <article class="agent-card agent-card--soon">
+              <div class="agent-avatar" aria-hidden="true"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect fill="#1e1a28" width="16" height="16"/><rect fill="#6d6580" x="4" y="3" width="8" height="10"/><rect fill="#4a4358" x="5" y="5" width="6" height="1"/><rect fill="#4a4358" x="5" y="7" width="6" height="1"/><rect fill="#4a4358" x="5" y="9" width="4" height="1"/><rect fill="#8a8298" x="11" y="4" width="2" height="2"/></svg></div>
+              <h4>产品经理智能体</h4>
+              <p>PRD 骨架、用户故事、优先级讨论与竞品要点表。</p>
+              <span class="agent-badge">即将推出</span>
+            </article>
+            <article class="agent-card agent-card--soon">
+              <div class="agent-avatar" aria-hidden="true"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect fill="#1e1a28" width="16" height="16"/><rect fill="#8a8298" x="3" y="3" width="2" height="8"/><rect fill="#6d6580" x="5" y="8" width="8" height="2"/><rect fill="#5a5468" x="10" y="4" width="3" height="3"/></svg></div>
+              <h4>设计师智能体</h4>
+              <p>界面文案、组件命名、无障碍检查与风格参考拼贴说明。</p>
+              <span class="agent-badge">即将推出</span>
+            </article>
+            <article class="agent-card agent-card--soon">
+              <div class="agent-avatar" aria-hidden="true"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect fill="#1e1a28" width="16" height="16"/><rect fill="#5a5468" x="5" y="5" width="6" height="2"/><rect fill="#6d6580" x="4" y="7" width="8" height="2"/><rect fill="#8a8298" x="2" y="8" width="2" height="4"/><rect fill="#8a8298" x="12" y="8" width="2" height="4"/></svg></div>
+              <h4>客服智能体</h4>
+              <p>工单摘要、标准回复草稿、情绪标注与升级建议。</p>
+              <span class="agent-badge">即将推出</span>
+            </article>
+            <article class="agent-card agent-card--soon">
+              <div class="agent-avatar" aria-hidden="true"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect fill="#1e1a28" width="16" height="16"/><rect fill="#6d6580" x="3" y="3" width="10" height="2"/><rect fill="#8a8298" x="4" y="6" width="2" height="3"/><rect fill="#8a8298" x="7" y="7" width="2" height="4"/><rect fill="#8a8298" x="10" y="5" width="2" height="5"/><rect fill="#5a5468" x="3" y="11" width="10" height="2"/></svg></div>
+              <h4>运营智能体</h4>
+              <p>活动排期、增长实验记录、社群话术与数据复盘提纲。</p>
+              <span class="agent-badge">即将推出</span>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ux" class="section section--muted" aria-labelledby="ux-title">
+      <div class="section-inner">
+      <h2 id="ux-title" class="section-title">为流量与留存而设计的体验</h2>
+      <p class="section-desc">
+        流量是起点，<strong>复访与订阅</strong>才是目标。我们强调移动端优先、首屏 10 秒内讲清价值、
+        可分享结果物，并兼顾性能与可访问性基础。
+      </p>
+      <div class="card-grid">
+        <article class="card">
+          <h3>可分享的结果</h3>
+          <p>每次互动产出文案、图片或短链，便于社交平台二次传播。</p>
+        </article>
+        <article class="card">
+          <h3>默认安全</h3>
+          <p>限流、内容策略与沙箱执行，降低公网开放智能体被滥用的风险。</p>
+        </article>
+        <article class="card">
+          <h3>SEO 友好扩展</h3>
+          <p>结构化数据、hreflang 与主题集群，覆盖中英文检索意图。</p>
+        </article>
+      </div>
+      </div>
+    </section>
+
+    <section id="roadmap" class="section" aria-labelledby="roadmap-title">
+      <div class="section-inner">
+      <h2 id="roadmap-title" class="section-title">路线图：免费玩 → 账号 → 订阅</h2>
+      <p class="section-desc">
+        第一阶段：落地页与 SEO 基座；第二阶段：注册与会话存档；第三阶段：会员档位、团队席位与支付 —— 同步完善<strong>隐私政策</strong>与<strong>用户协议</strong>。
+      </p>
+      <div class="card-grid">
+        <article class="card">
+          <h3>当前</h3>
+          <p>双语落地页、完整 meta 与 JSON-LD，后端可对接你的 API Key 与腾讯云主机。</p>
+        </article>
+        <article class="card">
+          <h3>下一步</h3>
+          <p>每智能体独立页、数据统计与防刷策略，面向全球访客优化。</p>
+        </article>
+        <article class="card">
+          <h3>之后</h3>
+          <p>接入 Stripe 或国内支付、权益校验与会员专属智能体。</p>
+        </article>
+      </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section section--muted" aria-labelledby="faq-title">
+      <div class="section-inner">
+      <h2 id="faq-title" class="section-title">常见问题</h2>
+      <p class="section-desc">便于用户理解，也利于搜索引擎 FAQ 富摘要展示。</p>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>什么是人工智能体？</summary>
+          <div class="faq-a">通常指具备工具调用与任务规划能力的大模型应用，可组成<strong>多智能体系统</strong>分工完成复杂任务。</div>
+        </details>
+        <details class="faq-item">
+          <summary>和普通聊天机器人有什么区别？</summary>
+          <div class="faq-a">智能体更强调调用外部工具、维护任务状态与多步执行；产品设计上要额外考虑透明度与风险控制。</div>
+        </details>
+        <details class="faq-item">
+          <summary>现在必须注册吗？</summary>
+          <div class="faq-a">本落地页无需注册。演示上线后可能先提供匿名体验，再引导可选注册。</div>
+        </details>
+        <details class="faq-item">
+          <summary>会有付费订阅吗？</summary>
+          <div class="faq-a">会有。计划提供更高用量、高级智能体与团队版；加入候补名单可获取首发价格信息。</div>
+        </details>
+      </div>
+      </div>
+    </section>
+
+    <div class="cta-band" id="waitlist">
+      <div class="cta-band-inner">
+        <h2>优先获得内测资格</h2>
+        <p>智能体互动上线时第一时间通知，不骚扰、可退订。</p>
+        <a class="btn btn-primary" href="mailto:hello@3737-k.info?subject=%E5%80%99%E8%A1%A5%E5%90%8D%E5%8D%95%20%E2%80%94%20Agentic%20Labs">发邮件加入候补</a>
+        <p class="cta-note">后续可替换为表单或邮件营销嵌入代码。</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-mascot">
+      <img src="../assets/mascot-trio-official.png" width="364" height="367" alt="" loading="lazy" decoding="async">
+      <span>© <span id="y"></span> Agentic Labs · 人工智能体与用户体验</span>
+    </div>
+    <div class="footer-links">
+      <a href="../sitemap.xml">站点地图</a>
+      <a href="../robots.txt">Robots</a>
+      <span>隐私政策与条款 — 即将上线</span>
+    </div>
+  </footer>
+
+  <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+  <script src="../assets/js/main.js" defer></script>
+</body>
+</html>
