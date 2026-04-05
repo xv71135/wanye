@@ -1,8 +1,9 @@
 /**
- * POST /api/analyze — 服务端转发到 VPS 上的 FastAPI，避免 https 页面请求 http API 被浏览器拦截。
- * 修改 BACKEND 时只改此处。
+ * POST /api/analyze — 边缘转发到 VPS FastAPI（HTTPS 页同源请求，无混合内容）。
+ * 勿用裸 IP：Cloudflare 边缘 fetch 裸 IP 易出现 Error 1016（Origin DNS）。
+ * 请在 Cloudflare DNS 添加 A 记录：vps-api.3737-k.info → 服务器 IP，且关闭代理（仅 DNS，灰云）。
  */
-const BACKEND = "http://139.199.212.59:8788";
+const BACKEND = "http://vps-api.3737-k.info:8788";
 
 export async function onRequestPost({ request }) {
   const body = await request.text();
