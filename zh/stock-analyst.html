@@ -63,9 +63,6 @@
             <label>可选追问
               <textarea id="sa-question" name="question" maxlength="2000" placeholder="例如：若业绩不及预期，应优先关注哪些风险？"></textarea>
             </label>
-            <label>可选 <code>X-Demo-Token</code>（仅当服务端配置了 DEMO_ACCESS_TOKEN）
-              <input id="sa-demo-token" type="password" autocomplete="off" placeholder="无令牌则留空">
-            </label>
             <div class="sa-actions">
               <button type="submit" class="btn btn-primary" id="sa-submit">运行流水线</button>
             </div>
@@ -105,6 +102,6 @@
     window.SA_MSG_LOADING = "正在执行 LangGraph 流水线（可能需要约一分钟）…";
     window.SA_MSG_DONE = "已完成。";
   </script>
-  <script src="/assets/js/stock-analyst.js?v=4" defer></script>
+  <script src="/assets/js/stock-analyst.js?v=5" defer></script>
 </body>
 </html>

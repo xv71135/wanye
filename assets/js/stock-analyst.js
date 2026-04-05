@@ -10,11 +10,6 @@
     return "";
   }
 
-  function demoToken() {
-    var el = document.getElementById("sa-demo-token");
-    return el && el.value ? el.value.trim() : "";
-  }
-
   function setStatus(msg, isErr) {
     var el = document.getElementById("sa-status");
     if (!el) return;
@@ -48,13 +43,9 @@
     out.textContent = "";
 
     try {
-      var headers = { "Content-Type": "application/json" };
-      var tok = demoToken();
-      if (tok) headers["X-Demo-Token"] = tok;
-
       var res = await fetch(base + "/analyze", {
         method: "POST",
-        headers: headers,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ symbol: symbol, question: question || null }),
       });
 
