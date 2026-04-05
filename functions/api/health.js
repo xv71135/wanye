@@ -63,11 +63,13 @@ export async function onRequestGet({ env }) {
       : "全部后端失败：检查腾讯云防火墙 8788、VPS 上 systemctl status stock-analyst-api、本机 curl 公网 IP:8788/health。",
   };
 
+  // 始终返回 200 + JSON。若用 HTTP 502，部分情况下 Cloudflare 会把响应替换成通用 HTML 错误页，用户看不到探测明细。
   return new Response(JSON.stringify(payload, null, 2), {
-    status: anyOk ? 200 : 502,
+    status: 200,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "no-store",
     },
   });
 }
