@@ -11,7 +11,7 @@
   <link rel="alternate" hreflang="zh-CN" href="https://3737-k.info/zh/stock-analyst.html">
   <link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/stock-analyst.html">
   <link rel="icon" type="image/png" href="/assets/mascot-trio-official.png">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css?v=sa2">
   <!-- 浏览器直连 HTTPS API，绕过 Pages→http:8788 的 1016；不配则仅用 stock-analyst-api-base 同源转发 -->
   <meta name="stock-analyst-api-direct" content="https://api.3737-k.info">
   <meta name="stock-analyst-api-base" content="https://3737-k.info/api">
@@ -39,67 +39,74 @@
 
   <main id="main">
     <section class="section" aria-labelledby="sa-title">
-      <div class="section-inner">
-        <p class="sa-lang-switch"><a href="/en/stock-analyst.html">English</a></p>
-        <h1 id="sa-title" class="section-title">股票分析师智能体</h1>
-        <p class="sa-lead">
-          使用 <strong>yfinance</strong> 延迟公开行情与 <strong>Google News RSS</strong> 标题聚合，经 <strong>LangGraph</strong> 四步编排：
-          拉数 → 校验 → 写稿 → 复核。大模型通过 <strong>MiniMax</strong> 官方 <strong>OpenAI 兼容接口</strong> 调用（默认模型 <code>MiniMax-M2.5</code>，与您会员线路一致请在环境变量中核对）。
-          <strong>不构成投资建议。</strong>
-        </p>
+      <div class="section-inner section-inner--sa">
+        <header class="sa-hero">
+          <p class="sa-lang-switch"><a href="/en/stock-analyst.html">English</a></p>
+          <h1 id="sa-title" class="section-title sa-title">股票分析师智能体</h1>
+          <p class="sa-lead">
+            公开延迟行情（<strong>yfinance</strong>）与 <strong>RSS</strong> 标题，经 <strong>LangGraph</strong> 四步生成中文研报；模型为 <strong>MiniMax</strong>（<code>MiniMax-M2.5</code>）。<strong>不构成投资建议。</strong>
+          </p>
+        </header>
 
-        <div class="sa-provenance" role="note">
-          <strong>开源参考与说明。</strong>
-          本演示<strong>并非</strong>下列仓库的 fork，为本站自研组合实现。职业向多智能体金融开源参考推荐 GitHub
-          <a href="https://github.com/TauricResearch/TradingAgents" rel="noopener noreferrer">TauricResearch/TradingAgents</a>（多智能体 LLM 金融交易/分析框架，社区星标较高）。
-          编排采用 <a href="https://github.com/langchain-ai/langgraph" rel="noopener noreferrer">langchain-ai/langgraph</a>。
-          数据仅为公开延迟行情与 RSS，不含付费终端级实时数据。
-        </div>
+        <details class="sa-about">
+          <summary class="sa-about-summary">开源参考与数据说明</summary>
+          <div class="sa-provenance" role="note">
+            <strong>说明。</strong>
+            本页<strong>并非</strong>下列仓库 fork，为本站自研组合。参考：
+            <a href="https://github.com/TauricResearch/TradingAgents" rel="noopener noreferrer">TauricResearch/TradingAgents</a>、
+            <a href="https://github.com/langchain-ai/langgraph" rel="noopener noreferrer">langchain-ai/langgraph</a>。
+            数据为公开延迟行情与 RSS，非付费终端实时行情。
+          </div>
+        </details>
 
-        <div class="sa-workflow" aria-label="流水线节点：输入与输出">
-          <p class="sa-workflow-legend">LangGraph：<strong>拉数</strong> → <strong>校验</strong> → <strong>写稿</strong> → <strong>复核</strong>（ComfyUI 风格节点布局）</p>
-
-          <div class="sa-node sa-node--input">
-            <div class="sa-node-head">
-              <span class="sa-node-dot sa-node-dot--in" aria-hidden="true"></span>
-              <span class="sa-node-title">流水线输入</span>
-              <span class="sa-node-port" aria-hidden="true" title="输出桩"></span>
-            </div>
-            <div class="sa-node-body">
-              <form id="sa-form" class="sa-form-grid" autocomplete="off">
-                <label>股票代码
-                  <input id="sa-symbol" name="symbol" type="text" placeholder="如 600519、000001、AAPL" required maxlength="32">
-                </label>
-                <label>可选追问
-                  <textarea id="sa-question" name="question" rows="5" maxlength="2000" placeholder="例如：若业绩不及预期，应优先关注哪些风险？"></textarea>
-                </label>
-                <div class="sa-actions">
-                  <button type="submit" class="btn btn-primary" id="sa-submit">运行流水线</button>
-                </div>
-                <p id="sa-status" class="sa-status" aria-live="polite"></p>
-              </form>
+        <div class="sa-graph" aria-label="ComfyUI 风格节点：输入、流水线、输出">
+          <div class="sa-graph-col sa-graph-col--left">
+            <div class="sa-node sa-node--input">
+              <div class="sa-node-head">
+                <span class="sa-node-dot sa-node-dot--in" aria-hidden="true"></span>
+                <span class="sa-node-title">流水线输入</span>
+                <span class="sa-node-port sa-node-port--out" aria-hidden="true" title="输出"></span>
+              </div>
+              <div class="sa-node-body">
+                <form id="sa-form" class="sa-form-grid" autocomplete="off">
+                  <label>股票代码
+                    <input id="sa-symbol" name="symbol" type="text" placeholder="如 600519、000001、AAPL" required maxlength="32">
+                  </label>
+                  <label>可选追问
+                    <textarea id="sa-question" name="question" rows="4" maxlength="2000" placeholder="例如：应优先关注哪些风险？"></textarea>
+                  </label>
+                  <div class="sa-actions">
+                    <button type="submit" class="btn btn-primary sa-run-btn" id="sa-submit">运行流水线</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
 
-          <div class="sa-workflow-edge" aria-hidden="true"></div>
+          <div class="sa-graph-rail" aria-hidden="true">
+            <div class="sa-rail-line"></div>
+            <ol class="sa-rail-steps">
+              <li><span class="sa-rail-dot"></span>拉数</li>
+              <li><span class="sa-rail-dot"></span>校验</li>
+              <li><span class="sa-rail-dot"></span>写稿</li>
+              <li><span class="sa-rail-dot"></span>复核</li>
+            </ol>
+          </div>
 
-          <div class="sa-node sa-node--output">
-            <div class="sa-node-head">
-              <span class="sa-node-dot sa-node-dot--out" aria-hidden="true"></span>
-              <span class="sa-node-title">研报输出</span>
-            </div>
-            <div class="sa-node-body">
-              <pre id="sa-output" class="sa-output" aria-live="polite"></pre>
+          <div class="sa-graph-col sa-graph-col--right">
+            <div class="sa-node sa-node--output">
+              <div class="sa-node-head">
+                <span class="sa-node-port sa-node-port--in" aria-hidden="true" title="输入"></span>
+                <span class="sa-node-title">研报输出</span>
+                <span class="sa-node-dot sa-node-dot--out" aria-hidden="true"></span>
+              </div>
+              <div class="sa-node-body">
+                <p id="sa-status" class="sa-status sa-status--in-node" aria-live="polite"></p>
+                <pre id="sa-output" class="sa-output" aria-live="polite"></pre>
+              </div>
             </div>
           </div>
         </div>
-
-        <p class="section-desc" style="margin-top:1.5rem;">
-          <strong>如何接通本页：</strong>默认同源 <code>/api/analyze</code>（Pages 函数）转发到 VPS 上 <code>stock-analyst-api/</code>；服务端配置 <code>MINIMAX_API_KEY</code>。
-          先打开 <a href="/api/health" target="_blank" rel="noopener">/api/health</a> 看边缘能否连上后端。
-          <strong>502</strong> 多为边缘到 VPS 不通或分析耗时过长；除检查腾讯云 <strong>8788</strong> 防火墙与 <code>systemctl status stock-analyst-api</code> 外，可在 VPS 配置 <strong>HTTPS</strong>（Nginx 证书）后增加 meta <code>stock-analyst-api-direct</code> 指向 <code>https://…</code> API 根，由浏览器直连。
-          <strong>1016</strong>：DNS 为 <code>vps-api.3737-k.info</code> 配灰云 A 记录指向 VPS。
-        </p>
       </div>
     </section>
   </main>
@@ -122,6 +129,6 @@
     window.SA_MSG_LOADING = "正在执行 LangGraph 流水线（可能需要约一分钟）…";
     window.SA_MSG_DONE = "已完成。";
   </script>
-  <script src="/assets/js/stock-analyst.js?v=11" defer></script>
+  <script src="/assets/js/stock-analyst.js?v=12" defer></script>
 </body>
 </html>

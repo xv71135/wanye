@@ -11,7 +11,7 @@
   <link rel="alternate" hreflang="zh-CN" href="https://3737-k.info/zh/stock-analyst.html">
   <link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/stock-analyst.html">
   <link rel="icon" type="image/png" href="/assets/mascot-trio-official.png">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css?v=sa2">
   <!-- Browser calls HTTPS API directly (avoids Pages→http:8788 1016); omit to use same-origin proxy only -->
   <meta name="stock-analyst-api-direct" content="https://api.3737-k.info">
   <meta name="stock-analyst-api-base" content="https://3737-k.info/api">
@@ -39,67 +39,75 @@
 
   <main id="main">
     <section class="section" aria-labelledby="sa-title">
-      <div class="section-inner">
-        <p class="sa-lang-switch"><a href="/zh/stock-analyst.html">中文版</a></p>
-        <h1 id="sa-title" class="section-title">Equity research agent</h1>
-        <p class="sa-lead">
-          Delayed market data (yfinance) plus Google News RSS headlines, orchestrated with <strong>LangGraph</strong>
-          (fetch → validate → draft → review). The LLM runs on <strong>MiniMax</strong> via the OpenAI-compatible API (default model <code>MiniMax-M2.5</code>).
-          <strong>Not investment advice.</strong>
-        </p>
+      <div class="section-inner section-inner--sa">
+        <header class="sa-hero">
+          <p class="sa-lang-switch"><a href="/zh/stock-analyst.html">中文版</a></p>
+          <h1 id="sa-title" class="section-title sa-title">Equity research agent</h1>
+          <p class="sa-lead">
+            Delayed quotes (<strong>yfinance</strong>) and <strong>RSS</strong> headlines, <strong>LangGraph</strong> four-step report; model <strong>MiniMax</strong> (<code>MiniMax-M2.5</code>).
+            <strong>Not investment advice.</strong>
+          </p>
+        </header>
 
-        <div class="sa-provenance" role="note">
-          <strong>Open-source lineage.</strong>
-          This demo is <em>not</em> a fork of the repos below; it is our own stack. The <strong>professional reference</strong> on GitHub for multi-agent finance is
-          <a href="https://github.com/TauricResearch/TradingAgents" rel="noopener noreferrer">TauricResearch/TradingAgents</a> (multi-agent LLM trading / analysis framework, high star count).
-          Orchestration here uses <a href="https://github.com/langchain-ai/langgraph" rel="noopener noreferrer">langchain-ai/langgraph</a>.
-          Data: public delayed quotes and RSS aggregation only.
-        </div>
+        <details class="sa-about">
+          <summary class="sa-about-summary">Open-source &amp; data note</summary>
+          <div class="sa-provenance" role="note">
+            <strong>Note.</strong>
+            This page is <em>not</em> a fork of the repos below. References:
+            <a href="https://github.com/TauricResearch/TradingAgents" rel="noopener noreferrer">TauricResearch/TradingAgents</a>,
+            <a href="https://github.com/langchain-ai/langgraph" rel="noopener noreferrer">langchain-ai/langgraph</a>.
+            Data: public delayed quotes and RSS only.
+          </div>
+        </details>
 
-        <div class="sa-workflow" aria-label="Workflow nodes: input and output">
-          <p class="sa-workflow-legend">LangGraph: <strong>fetch</strong> → <strong>validate</strong> → <strong>draft</strong> → <strong>review</strong> (ComfyUI-style node layout)</p>
-
-          <div class="sa-node sa-node--input">
-            <div class="sa-node-head">
-              <span class="sa-node-dot sa-node-dot--in" aria-hidden="true"></span>
-              <span class="sa-node-title">Pipeline input</span>
-              <span class="sa-node-port" aria-hidden="true" title="Output port"></span>
-            </div>
-            <div class="sa-node-body">
-              <form id="sa-form" class="sa-form-grid" autocomplete="off">
-                <label>Symbol
-                  <input id="sa-symbol" name="symbol" type="text" placeholder="e.g. AAPL, 600519, 000001" required maxlength="32">
-                </label>
-                <label>Optional question
-                  <textarea id="sa-question" name="question" rows="5" maxlength="2000" placeholder="e.g. What are the main risks if earnings miss?"></textarea>
-                </label>
-                <div class="sa-actions">
-                  <button type="submit" class="btn btn-primary" id="sa-submit">Run pipeline</button>
-                </div>
-                <p id="sa-status" class="sa-status" aria-live="polite"></p>
-              </form>
+        <div class="sa-graph" aria-label="ComfyUI-style nodes: input, pipeline, output">
+          <div class="sa-graph-col sa-graph-col--left">
+            <div class="sa-node sa-node--input">
+              <div class="sa-node-head">
+                <span class="sa-node-dot sa-node-dot--in" aria-hidden="true"></span>
+                <span class="sa-node-title">Load Input</span>
+                <span class="sa-node-port sa-node-port--out" aria-hidden="true" title="Output"></span>
+              </div>
+              <div class="sa-node-body">
+                <form id="sa-form" class="sa-form-grid" autocomplete="off">
+                  <label>Symbol
+                    <input id="sa-symbol" name="symbol" type="text" placeholder="e.g. AAPL, 600519, 000001" required maxlength="32">
+                  </label>
+                  <label>Optional question
+                    <textarea id="sa-question" name="question" rows="4" maxlength="2000" placeholder="e.g. Key risks if earnings miss?"></textarea>
+                  </label>
+                  <div class="sa-actions">
+                    <button type="submit" class="btn btn-primary sa-run-btn" id="sa-submit">Run pipeline</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
 
-          <div class="sa-workflow-edge" aria-hidden="true"></div>
+          <div class="sa-graph-rail" aria-hidden="true">
+            <div class="sa-rail-line"></div>
+            <ol class="sa-rail-steps">
+              <li><span class="sa-rail-dot"></span>Fetch</li>
+              <li><span class="sa-rail-dot"></span>Validate</li>
+              <li><span class="sa-rail-dot"></span>Draft</li>
+              <li><span class="sa-rail-dot"></span>Review</li>
+            </ol>
+          </div>
 
-          <div class="sa-node sa-node--output">
-            <div class="sa-node-head">
-              <span class="sa-node-dot sa-node-dot--out" aria-hidden="true"></span>
-              <span class="sa-node-title">Report output</span>
-            </div>
-            <div class="sa-node-body">
-              <pre id="sa-output" class="sa-output" aria-live="polite"></pre>
+          <div class="sa-graph-col sa-graph-col--right">
+            <div class="sa-node sa-node--output">
+              <div class="sa-node-head">
+                <span class="sa-node-port sa-node-port--in" aria-hidden="true" title="Input"></span>
+                <span class="sa-node-title">Report Preview</span>
+                <span class="sa-node-dot sa-node-dot--out" aria-hidden="true"></span>
+              </div>
+              <div class="sa-node-body">
+                <p id="sa-status" class="sa-status sa-status--in-node" aria-live="polite"></p>
+                <pre id="sa-output" class="sa-output" aria-live="polite"></pre>
+              </div>
             </div>
           </div>
         </div>
-
-        <p class="section-desc" style="margin-top:1.5rem;">
-          <strong>How this page connects:</strong> by default same-origin <code>/api/analyze</code> (Pages Function) forwards to the VPS <code>stock-analyst-api/</code>; set <code>MINIMAX_API_KEY</code> on the server.
-          Open <a href="/api/health" target="_blank" rel="noopener">/api/health</a> to see if the edge can reach your API.
-          <strong>502</strong> usually means the edge cannot reach the VPS or the analysis takes too long; check Tencent Cloud firewall <strong>8788</strong> and <code>systemctl status stock-analyst-api</code>, or terminate TLS on the VPS (Nginx) and set meta <code>stock-analyst-api-direct</code> to your <code>https://…</code> API origin for browser-direct calls.
-          <strong>1016</strong>: grey-cloud A record for <code>vps-api.3737-k.info</code> pointing at the VPS.
-        </p>
       </div>
     </section>
   </main>
@@ -122,6 +130,6 @@
     window.SA_MSG_LOADING = "Running LangGraph pipeline (may take a minute)…";
     window.SA_MSG_DONE = "Finished.";
   </script>
-  <script src="/assets/js/stock-analyst.js?v=11" defer></script>
+  <script src="/assets/js/stock-analyst.js?v=12" defer></script>
 </body>
 </html>
