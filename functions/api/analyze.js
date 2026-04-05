@@ -1,9 +1,29 @@
 /**
- * POST /api/analyze — 边缘转发到 VPS FastAPI（HTTPS 页同源请求，无混合内容）。
- * 勿用裸 IP：Cloudflare 边缘 fetch 裸 IP 易出现 Error 1016（Origin DNS）。
- * 请在 Cloudflare DNS 添加 A 记录：vps-api.3737-k.info → 服务器 IP，且关闭代理（仅 DNS，灰云）。
+ * POST /api/analyze — edge proxy to VPS FastAPI (same-origin from the HTTPS page).
+ * Prefer hostname (avoids some edge cases with bare IP). If the response looks like
+ * Cloudflare Error 1016 HTML or the request fails, retry the fallback origin.
+ *
+ * DNS: A record vps-api.3737-k.info → VPS IP, DNS only (grey cloud).
  */
-const BACKEND = "http://vps-api.3737-k.info:8788";
+const BACKENDS = [
+  "http://vps-api.3737-k.info:8788",
+  "http://139.199.212.59:8788",
+];
+
+function looksLikeCf1016(text) {
+  return (
+    text.includes("error code: 1016") ||
+    text.includes("Error 1016") ||
+    (text.includes("Cloudflare") && text.includes("1016"))
+  );
+}
+
+function shouldRetry(res, text) {
+  const ct = (res.headers.get("Content-Type") || "").toLowerCase();
+  if (ct.includes("application/json")) return false;
+  if (res.status >= 502 && res.status <= 530) return true;
+  return looksLikeCf1016(text);
+}
 
 export async function onRequestPost({ request }) {
   const body = await request.text();
@@ -12,17 +32,35 @@ export async function onRequestPost({ request }) {
   const tok = request.headers.get("X-Demo-Token");
   if (tok) hdr.set("X-Demo-Token", tok);
 
-  const res = await fetch(`${BACKEND}/analyze`, {
-    method: "POST",
-    headers: hdr,
-    body,
-  });
+  let last = { text: '{"detail":"all backends failed"}', status: 502 };
 
-  const out = await res.text();
-  return new Response(out, {
-    status: res.status,
+  for (const base of BACKENDS) {
+    try {
+      const res = await fetch(`${base}/analyze`, {
+        method: "POST",
+        headers: hdr,
+        body,
+      });
+      const text = await res.text();
+      if (!shouldRetry(res, text)) {
+        return new Response(text, {
+          status: res.status,
+          headers: {
+            "Content-Type": res.headers.get("Content-Type") || "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        });
+      }
+      last = { text, status: res.status };
+    } catch {
+      /* try next */
+    }
+  }
+
+  return new Response(last.text, {
+    status: last.status,
     headers: {
-      "Content-Type": res.headers.get("Content-Type") || "application/json",
+      "Content-Type": last.text.trim().startsWith("{") ? "application/json" : "text/plain",
       "Access-Control-Allow-Origin": "*",
     },
   });
