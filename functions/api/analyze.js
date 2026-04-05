@@ -1,26 +1,33 @@
 /**
  * POST /api/analyze — edge proxy to VPS FastAPI (same-origin from the HTTPS page).
  *
- * Cloudflare 1016 often happens when the first hop uses a hostname that is missing
- * in DNS, orange-clouded (proxy + custom port), or otherwise not resolvable from the
- * edge. Mitigation:
- * 1) Try bare IP first (most reliable from Workers if the security group allows).
- * 2) For vps-api.3737-k.info (same zone as Pages), use cf.resolveOverride to connect
- *    to the VPS IP while keeping the correct Host header — bypasses broken public DNS.
- * 3) Last resort: hostname without override (works if grey-cloud A record is correct).
+ * Do NOT use resolveOverride with a raw IP; Cloudflare requires a hostname in your zone.
+ * Order: try bare IP first, then vps-api hostname (grey-cloud A record).
  *
- * DNS: A record vps-api.3737-k.info → VPS IP, DNS only (grey cloud) is still recommended.
+ * Optional: Pages project → Settings → Environment variables:
+ *   VPS_ANALYZE_BASES = http://139.199.212.59:8788,http://vps-api.3737-k.info:8788
+ * (no trailing slashes; overrides defaults)
  */
 const VPS_IP = "139.199.212.59";
 const VPS_HOST = "vps-api.3737-k.info";
 const VPS_PORT = 8788;
 
-/** @type {{ base: string, cf?: { resolveOverride: string } }[]} */
-const BACKENDS = [
-  { base: `http://${VPS_IP}:${VPS_PORT}` },
-  { base: `http://${VPS_HOST}:${VPS_PORT}`, cf: { resolveOverride: VPS_IP } },
-  { base: `http://${VPS_HOST}:${VPS_PORT}` },
-];
+function defaultBases() {
+  return [`http://${VPS_IP}:${VPS_PORT}`, `http://${VPS_HOST}:${VPS_PORT}`];
+}
+
+/** @param {Record<string, unknown> | undefined} env */
+function getBases(env) {
+  const raw = typeof env?.VPS_ANALYZE_BASES === "string" ? env.VPS_ANALYZE_BASES.trim() : "";
+  if (raw) {
+    const list = raw
+      .split(",")
+      .map((s) => s.trim().replace(/\/$/, ""))
+      .filter(Boolean);
+    if (list.length) return list;
+  }
+  return defaultBases();
+}
 
 function looksLikeCf1016(text) {
   return (
@@ -37,7 +44,7 @@ function shouldRetry(res, text) {
   return looksLikeCf1016(text);
 }
 
-export async function onRequestPost({ request }) {
+export async function onRequestPost({ request, env }) {
   const body = await request.text();
   const hdr = new Headers();
   hdr.set("Content-Type", "application/json");
@@ -45,21 +52,17 @@ export async function onRequestPost({ request }) {
   if (tok) hdr.set("X-Demo-Token", tok);
 
   const hint =
-    "边缘无法连上 VPS。请确认：1) 腾讯云安全组放行 8788 给公网；2) stock-analyst-api 在监听 0.0.0.0:8788；3) Cloudflare DNS 中 vps-api.3737-k.info 为灰云 A 记录指向 " +
-    VPS_IP +
-    "。";
+    "边缘无法连上 VPS。请确认：1) 腾讯云安全组放行 8788；2) systemd 中 uvicorn 监听 0.0.0.0:8788；3) 浏览器打开 https://你的域名/api/health 看边缘探测结果；4) 若仍失败，在 VPS 上配置 HTTPS（Nginx 证书）后，于页面 head 增加 meta stock-analyst-api-direct 指向 https API 根地址，浏览器将直连 API、绕过本转发。";
 
   let last = { text: JSON.stringify({ detail: "all backends failed", hint }), status: 502 };
 
-  for (const { base, cf } of BACKENDS) {
+  for (const base of getBases(env)) {
     try {
-      const init = {
+      const res = await fetch(`${base}/analyze`, {
         method: "POST",
         headers: hdr,
         body,
-        ...(cf ? { cf } : {}),
-      };
-      const res = await fetch(`${base}/analyze`, init);
+      });
       const text = await res.text();
       if (!shouldRetry(res, text)) {
         return new Response(text, {
@@ -71,8 +74,15 @@ export async function onRequestPost({ request }) {
         });
       }
       last = { text, status: res.status };
-    } catch {
-      /* try next */
+    } catch (e) {
+      last = {
+        text: JSON.stringify({
+          detail: `fetch failed: ${String((e && e.message) || e)}`,
+          hint,
+          base,
+        }),
+        status: 502,
+      };
     }
   }
 

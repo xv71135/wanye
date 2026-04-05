@@ -49,9 +49,17 @@
 网站里 meta 填什么
 ================================================================================
 
-  http://139.199.212.59:8788
+  默认（经 Cloudflare Pages 转发）：页面里已是
+    https://3737-k.info/api
+  不要改成 http://IP:8788（https 页面会混合内容拦截）。
 
-（不要末尾斜杠）
+  若线上长期 502、但本机 curl 公网 IP:8788/health 正常：
+  在 VPS 上用 Nginx + Let’s Encrypt 做 HTTPS 反代到 127.0.0.1:8788，
+  然后在 zh/stock-analyst.html、en/stock-analyst.html 的 <head> 里增加（无尾斜杠）：
+    <meta name="stock-analyst-api-direct" content="https://你的域名">
+  保存部署后，浏览器会直连 FastAPI，不再经过 Pages 函数转发。
+
+  诊断：浏览器打开 https://3737-k.info/api/health 看边缘能否连上各后端。
 
 ================================================================================
 开机自启 + 崩溃自动拉起（systemd，推荐）

@@ -2,6 +2,16 @@
   "use strict";
 
   function apiBase() {
+    var directEl = document.querySelector('meta[name="stock-analyst-api-direct"]');
+    var direct = directEl && directEl.content ? directEl.content.trim().replace(/\/$/, "") : "";
+    if (direct) {
+      if (typeof location !== "undefined" && location.protocol === "https:" && direct.indexOf("http:") === 0) {
+        console.warn(
+          "[stock-analyst] stock-analyst-api-direct 使用 http 在 https 页面会被浏览器拦截；请改为 https API 或删除该 meta 以使用同源 /api。"
+        );
+      }
+      return direct;
+    }
     var meta = document.querySelector('meta[name="stock-analyst-api-base"]');
     var fromMeta = meta && meta.content ? meta.content.trim() : "";
     if (fromMeta) return fromMeta.replace(/\/$/, "");

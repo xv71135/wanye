@@ -12,7 +12,9 @@
   <link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/stock-analyst.html">
   <link rel="icon" type="image/png" href="/assets/mascot-trio-official.png">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <!-- After you deploy the FastAPI service, set content to its origin without a trailing slash, e.g. https://api.example.com -->
+  <!-- Default: same-origin Pages proxy. If you always get 502: put HTTPS API behind Nginx, then add the line below (no trailing slash) for browser-direct calls:
+  <meta name="stock-analyst-api-direct" content="https://your-api-hostname">
+  -->
   <meta name="stock-analyst-api-base" content="https://3737-k.info/api">
 </head>
 <body class="sa-page">
@@ -94,8 +96,10 @@
         </div>
 
         <p class="section-desc" style="margin-top:1.5rem;">
-          <strong>How this page connects:</strong> the static site calls same-origin <code>/api/analyze</code> (a Cloudflare Pages Function) which forwards to the VPS <code>stock-analyst-api/</code> FastAPI; set <code>MINIMAX_API_KEY</code> on the server.
-          If you see <strong>1016</strong>, add a DNS <strong>A record</strong> for <code>vps-api.3737-k.info</code> pointing at your VPS with <strong>DNS only (grey cloud, not proxied)</strong>, or change <code>&lt;meta name="stock-analyst-api-base"&gt;</code> to another deployed API origin.
+          <strong>How this page connects:</strong> by default same-origin <code>/api/analyze</code> (Pages Function) forwards to the VPS <code>stock-analyst-api/</code>; set <code>MINIMAX_API_KEY</code> on the server.
+          Open <a href="/api/health" target="_blank" rel="noopener">/api/health</a> to see if the edge can reach your API.
+          <strong>502</strong> usually means the edge cannot reach the VPS or the analysis takes too long; check Tencent Cloud firewall <strong>8788</strong> and <code>systemctl status stock-analyst-api</code>, or terminate TLS on the VPS (Nginx) and set meta <code>stock-analyst-api-direct</code> to your <code>https://…</code> API origin for browser-direct calls.
+          <strong>1016</strong>: grey-cloud A record for <code>vps-api.3737-k.info</code> pointing at the VPS.
         </p>
       </div>
     </section>
@@ -119,6 +123,6 @@
     window.SA_MSG_LOADING = "Running LangGraph pipeline (may take a minute)…";
     window.SA_MSG_DONE = "Finished.";
   </script>
-  <script src="/assets/js/stock-analyst.js?v=9" defer></script>
+  <script src="/assets/js/stock-analyst.js?v=10" defer></script>
 </body>
 </html>
