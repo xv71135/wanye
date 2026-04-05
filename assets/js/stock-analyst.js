@@ -63,6 +63,10 @@
           err = err.map(function (x) { return x.msg || JSON.stringify(x); }).join("; ");
         }
         err = String(err);
+        if (/^[\s]*<!DOCTYPE/i.test(err) || /cf-error-details|cloudflare/i.test(err)) {
+          err =
+            "网关 502：Cloudflare 未从上游拿到有效响应（常见：边缘连 VPS 失败、Pages Function 超时或崩溃）。请查 VPS 8788、安全组与 Pages 部署日志。";
+        }
         if (data.hint) err = err + " " + String(data.hint);
         setStatus(err, true);
         return;
