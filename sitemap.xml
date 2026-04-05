@@ -25,4 +25,20 @@
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
+  <url>
+    <loc>https://3737-k.info/en/stock-analyst.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://3737-k.info/en/stock-analyst.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://3737-k.info/zh/stock-analyst.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/stock-analyst.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://3737-k.info/zh/stock-analyst.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://3737-k.info/en/stock-analyst.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://3737-k.info/zh/stock-analyst.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/stock-analyst.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
 </urlset>

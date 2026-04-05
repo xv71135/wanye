@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Equity research agent (demo) | Agentic Labs</title>
+  <meta name="description" content="Stock analyst-style AI demo: market data, news RSS, LangGraph pipeline, MiniMax M2.5. Not investment advice.">
+  <meta name="theme-color" content="#120a1f">
+  <link rel="canonical" href="https://3737-k.info/en/stock-analyst.html">
+  <link rel="alternate" hreflang="en" href="https://3737-k.info/en/stock-analyst.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://3737-k.info/zh/stock-analyst.html">
+  <link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/stock-analyst.html">
+  <link rel="icon" type="image/png" href="/assets/mascot-trio-official.png">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- After you deploy the FastAPI service, set content to its origin without a trailing slash, e.g. https://api.example.com -->
+  <meta name="stock-analyst-api-base" content="http://139.199.212.59:8788">
+</head>
+<body class="sa-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo-lockup" href="/en/index.html">
+        <img class="logo-mascot-img" src="/assets/mascot-trio-official.png" width="364" height="367" alt="">
+        <span class="logo-text">Agentic <span>Labs</span></span>
+      </a>
+      <nav class="nav-main" aria-label="Primary">
+        <a href="/en/index.html#agents">AI Agents</a>
+        <a href="/en/stock-analyst.html" aria-current="page">Stock analyst</a>
+        <a href="/en/index.html#directory">Roster</a>
+        <div class="lang-switch" role="group" aria-label="Language">
+          <a href="/en/stock-analyst.html" aria-current="true">EN</a>
+          <a href="/zh/stock-analyst.html">中文</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section" aria-labelledby="sa-title">
+      <div class="section-inner">
+        <p class="sa-lang-switch"><a href="/zh/stock-analyst.html">中文版</a></p>
+        <h1 id="sa-title" class="section-title">Equity research agent</h1>
+        <p class="sa-lead">
+          Delayed market data (yfinance) plus Google News RSS headlines, orchestrated with <strong>LangGraph</strong>
+          (fetch → validate → draft → review). The LLM runs on <strong>MiniMax</strong> via the OpenAI-compatible API (default model <code>MiniMax-M2.5</code>).
+          <strong>Not investment advice.</strong>
+        </p>
+
+        <div class="sa-provenance" role="note">
+          <strong>Open-source lineage.</strong>
+          This demo is <em>not</em> a fork of the repos below; it is our own stack. The <strong>professional reference</strong> on GitHub for multi-agent finance is
+          <a href="https://github.com/TauricResearch/TradingAgents" rel="noopener noreferrer">TauricResearch/TradingAgents</a> (multi-agent LLM trading / analysis framework, high star count).
+          Orchestration here uses <a href="https://github.com/langchain-ai/langgraph" rel="noopener noreferrer">langchain-ai/langgraph</a>.
+          Data: public delayed quotes and RSS aggregation only.
+        </div>
+
+        <div class="sa-panel">
+          <form id="sa-form" class="sa-form-grid" autocomplete="off">
+            <label>Symbol
+              <input id="sa-symbol" name="symbol" type="text" placeholder="e.g. AAPL, 600519, 000001" required maxlength="32">
+            </label>
+            <label>Optional question
+              <textarea id="sa-question" name="question" maxlength="2000" placeholder="e.g. What are the main risks if earnings miss?"></textarea>
+            </label>
+            <label>Optional <code>X-Demo-Token</code> (only if your API sets DEMO_ACCESS_TOKEN)
+              <input id="sa-demo-token" type="password" autocomplete="off" placeholder="Leave empty if server has no token">
+            </label>
+            <div class="sa-actions">
+              <button type="submit" class="btn btn-primary" id="sa-submit">Run pipeline</button>
+            </div>
+            <p id="sa-status" class="sa-status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="sa-output-wrap">
+          <h2 class="section-title" style="font-size:0.55rem;margin-bottom:8px;">Report output</h2>
+          <pre id="sa-output" class="sa-output" aria-live="polite"></pre>
+        </div>
+
+        <p class="section-desc" style="margin-top:1.5rem;">
+          <strong>How to connect this page:</strong> deploy the FastAPI app in <code>stock-analyst-api/</code> (e.g. Railway, Render, or your VPS),
+          set <code>MINIMAX_API_KEY</code> on the server only, then put the public API origin into the <code>&lt;meta name="stock-analyst-api-base"&gt;</code> tag above and redeploy the static site.
+          Cloudflare Pages/Workers cannot run this Python stack as-is; use a separate Python host for the API.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-mascot">
+      <img src="/assets/mascot-trio-official.png" width="364" height="367" alt="" loading="lazy" decoding="async">
+      <span>© <span id="y"></span> Agentic Labs</span>
+    </div>
+    <div class="footer-links">
+      <a href="/en/index.html">Home</a>
+      <a href="/sitemap.xml">Sitemap</a>
+    </div>
+  </footer>
+
+  <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+  <script>
+    window.SA_MSG_NO_API = "Set meta name=\"stock-analyst-api-base\" to your deployed FastAPI origin (no trailing slash), then reload.";
+    window.SA_MSG_NO_SYMBOL = "Enter a ticker symbol.";
+    window.SA_MSG_LOADING = "Running LangGraph pipeline (may take a minute)…";
+    window.SA_MSG_DONE = "Finished.";
+  </script>
+  <script src="/assets/js/stock-analyst.js" defer></script>
+</body>
+</html>

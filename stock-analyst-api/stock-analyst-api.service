@@ -1,0 +1,17 @@
+[Unit]
+Description=Stock Analyst Agent API (FastAPI / uvicorn)
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/stock-analyst-api
+# 与 .env 里 MINIMAX_* 等变量格式一致（不要写 export）
+EnvironmentFile=/opt/stock-analyst-api/.env
+ExecStart=/opt/stock-analyst-api/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8788
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

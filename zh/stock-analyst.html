@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>股票分析师智能体（演示）｜Agentic Labs</title>
+  <meta name="description" content="证券研究风格 AI 演示：延迟行情、新闻 RSS、LangGraph 多步流水线、MiniMax M2.5。不构成投资建议。">
+  <meta name="theme-color" content="#120a1f">
+  <link rel="canonical" href="https://3737-k.info/zh/stock-analyst.html">
+  <link rel="alternate" hreflang="en" href="https://3737-k.info/en/stock-analyst.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://3737-k.info/zh/stock-analyst.html">
+  <link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/stock-analyst.html">
+  <link rel="icon" type="image/png" href="/assets/mascot-trio-official.png">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- 部署 FastAPI 后，将 content 改为接口根地址，无末尾斜杠，例如 https://api.example.com -->
+  <meta name="stock-analyst-api-base" content="http://139.199.212.59:8788">
+</head>
+<body class="sa-page">
+  <a class="skip-link" href="#main">跳到正文</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo-lockup" href="/zh/index.html">
+        <img class="logo-mascot-img" src="/assets/mascot-trio-official.png" width="364" height="367" alt="">
+        <span class="logo-text">Agentic <span>Labs</span></span>
+      </a>
+      <nav class="nav-main" aria-label="主导航">
+        <a href="/zh/index.html#agents">智能体</a>
+        <a href="/zh/stock-analyst.html" aria-current="page">股票分析师</a>
+        <a href="/zh/index.html#directory">职业图鉴</a>
+        <div class="lang-switch" role="group" aria-label="语言">
+          <a href="/en/stock-analyst.html">EN</a>
+          <a href="/zh/stock-analyst.html" aria-current="true">中文</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section" aria-labelledby="sa-title">
+      <div class="section-inner">
+        <p class="sa-lang-switch"><a href="/en/stock-analyst.html">English</a></p>
+        <h1 id="sa-title" class="section-title">股票分析师智能体</h1>
+        <p class="sa-lead">
+          使用 <strong>yfinance</strong> 延迟公开行情与 <strong>Google News RSS</strong> 标题聚合，经 <strong>LangGraph</strong> 四步编排：
+          拉数 → 校验 → 写稿 → 复核。大模型通过 <strong>MiniMax</strong> 官方 <strong>OpenAI 兼容接口</strong> 调用（默认模型 <code>MiniMax-M2.5</code>，与您会员线路一致请在环境变量中核对）。
+          <strong>不构成投资建议。</strong>
+        </p>
+
+        <div class="sa-provenance" role="note">
+          <strong>开源参考与说明。</strong>
+          本演示<strong>并非</strong>下列仓库的 fork，为本站自研组合实现。职业向多智能体金融开源参考推荐 GitHub
+          <a href="https://github.com/TauricResearch/TradingAgents" rel="noopener noreferrer">TauricResearch/TradingAgents</a>（多智能体 LLM 金融交易/分析框架，社区星标较高）。
+          编排采用 <a href="https://github.com/langchain-ai/langgraph" rel="noopener noreferrer">langchain-ai/langgraph</a>。
+          数据仅为公开延迟行情与 RSS，不含付费终端级实时数据。
+        </div>
+
+        <div class="sa-panel">
+          <form id="sa-form" class="sa-form-grid" autocomplete="off">
+            <label>股票代码
+              <input id="sa-symbol" name="symbol" type="text" placeholder="如 600519、000001、AAPL" required maxlength="32">
+            </label>
+            <label>可选追问
+              <textarea id="sa-question" name="question" maxlength="2000" placeholder="例如：若业绩不及预期，应优先关注哪些风险？"></textarea>
+            </label>
+            <label>可选 <code>X-Demo-Token</code>（仅当服务端配置了 DEMO_ACCESS_TOKEN）
+              <input id="sa-demo-token" type="password" autocomplete="off" placeholder="无令牌则留空">
+            </label>
+            <div class="sa-actions">
+              <button type="submit" class="btn btn-primary" id="sa-submit">运行流水线</button>
+            </div>
+            <p id="sa-status" class="sa-status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="sa-output-wrap">
+          <h2 class="section-title" style="font-size:0.55rem;margin-bottom:8px;">研报输出</h2>
+          <pre id="sa-output" class="sa-output" aria-live="polite"></pre>
+        </div>
+
+        <p class="section-desc" style="margin-top:1.5rem;">
+          <strong>如何接通本页：</strong>在服务器部署仓库内 <code>stock-analyst-api/</code> 的 FastAPI 应用（如 Railway、Render 或自有 VPS），仅在服务端配置 <code>MINIMAX_API_KEY</code>，
+          再把公网可访问的 API 根地址写入本页 <code>&lt;meta name="stock-analyst-api-base"&gt;</code> 后重新发布静态站点。
+          Cloudflare Pages 不能直接跑此 Python 流水线，需独立 Python 托管 API。
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-mascot">
+      <img src="/assets/mascot-trio-official.png" width="364" height="367" alt="" loading="lazy" decoding="async">
+      <span>© <span id="y"></span> Agentic Labs</span>
+    </div>
+    <div class="footer-links">
+      <a href="/zh/index.html">首页</a>
+      <a href="/sitemap.xml">Sitemap</a>
+    </div>
+  </footer>
+
+  <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+  <script>
+    window.SA_MSG_NO_API = "请在本页 head 中的 meta「stock-analyst-api-base」填写已部署的 FastAPI 根地址（无末尾斜杠），保存后刷新。";
+    window.SA_MSG_NO_SYMBOL = "请输入股票代码。";
+    window.SA_MSG_LOADING = "正在执行 LangGraph 流水线（可能需要约一分钟）…";
+    window.SA_MSG_DONE = "已完成。";
+  </script>
+  <script src="/assets/js/stock-analyst.js" defer></script>
+</body>
+</html>

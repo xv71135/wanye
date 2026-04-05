@@ -395,6 +395,64 @@ a:hover {
   border-bottom: 4px dashed rgba(249, 232, 168, 0.25);
 }
 
+/* AI News Section */
+.section--news {
+  background: rgba(45, 31, 74, 0.5);
+  border-top: 4px dashed var(--px-pink);
+  border-bottom: 4px dashed var(--px-pink);
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.news-card {
+  background: var(--px-panel);
+  border: 3px solid var(--px-border-dark);
+  padding: 16px;
+  border-radius: 4px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.news-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--px-shadow);
+}
+
+.news-date {
+  font-size: 0.9rem;
+  color: var(--px-cyan);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.news-card h3 {
+  font-family: var(--font-pixel);
+  font-size: 1.1rem;
+  margin: 0 0 8px;
+  color: var(--px-text);
+  line-height: 1.3;
+}
+
+.news-card p {
+  font-size: 1rem;
+  color: var(--px-muted);
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+
+.news-card a {
+  font-size: 0.95rem;
+  color: var(--px-pink);
+}
+
+.news-card a:hover {
+  color: var(--px-yellow);
+}
+
 .section-inner {
   max-width: var(--px-max);
   margin: 0 auto;
@@ -737,6 +795,137 @@ details.faq-item .faq-a strong {
 
 .footer-links a:hover {
   color: var(--px-yellow);
+}
+
+/* —— Live agent card —— */
+.agent-card--live {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+  border-color: var(--px-cyan);
+  box-shadow: 5px 5px 0 rgba(92, 255, 215, 0.25);
+}
+
+.agent-card--live:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--px-shadow);
+  border-color: var(--px-yellow);
+}
+
+.agent-card--live .agent-badge {
+  color: var(--px-cyan);
+  border-color: var(--px-cyan);
+}
+
+/* —— Stock analyst tool page —— */
+.sa-page .section-inner {
+  max-width: var(--px-max-wide);
+}
+
+.sa-lead {
+  color: var(--px-muted);
+  font-size: 1.2rem;
+  max-width: 52rem;
+  margin-bottom: 1.25rem;
+}
+
+.sa-panel {
+  border: 4px solid var(--px-border-dark);
+  background: var(--px-bg-deep);
+  box-shadow: 6px 6px 0 var(--px-shadow);
+  padding: 1.25rem 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sa-form-grid {
+  display: grid;
+  gap: 14px;
+  max-width: 32rem;
+}
+
+.sa-form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--px-muted);
+  font-size: 1.1rem;
+}
+
+.sa-form-grid input,
+.sa-form-grid textarea {
+  font-family: var(--font-pixel);
+  font-size: 1.25rem;
+  padding: 10px 12px;
+  border: 3px solid var(--px-border-dark);
+  background: var(--px-panel);
+  color: var(--px-text);
+}
+
+.sa-form-grid textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+
+.sa-actions {
+  margin-top: 8px;
+}
+
+.sa-status {
+  margin-top: 12px;
+  font-size: 1.1rem;
+  color: var(--px-cyan);
+}
+
+.sa-status--err {
+  color: #ff8a8a;
+}
+
+.sa-output-wrap {
+  border: 4px solid var(--px-border-dark);
+  background: #0d0818;
+  box-shadow: 6px 6px 0 var(--px-shadow);
+  padding: 1rem 1.25rem;
+  min-height: 12rem;
+}
+
+.sa-output-wrap h3 {
+  font-family: var(--font-title);
+  font-size: 0.52rem;
+  color: var(--px-yellow);
+  margin: 0 0 12px;
+}
+
+.sa-output {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.45;
+  color: var(--px-text);
+}
+
+.sa-provenance {
+  border-left: 5px solid var(--px-yellow);
+  padding: 12px 14px;
+  background: rgba(255, 229, 102, 0.06);
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+  color: var(--px-muted);
+  line-height: 1.45;
+}
+
+.sa-provenance a {
+  color: var(--px-cyan);
+}
+
+.sa-provenance strong {
+  color: var(--px-text);
+}
+
+.sa-lang-switch {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
 }
 
 @media (max-width: 640px) {
