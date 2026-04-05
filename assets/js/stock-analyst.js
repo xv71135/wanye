@@ -85,7 +85,12 @@
       out.textContent = data.report_markdown || "";
       setStatus(window.SA_MSG_DONE || "Done.", false);
     } catch (err) {
-      setStatus(String(err.message || err), true);
+      var msg = String(err.message || err);
+      if (msg === "Failed to fetch") {
+        msg =
+          "请求未到达服务器（Failed to fetch）。常见：① 跨域 CORS（API 须允许 https://3737-k.info）；② Nginx 默认约 60s 超时，流水线更长会被断开；③ 证书/网络。请更新 VPS 上 API 代码并重启，且在 Nginx location 中加 proxy_read_timeout 300s；";
+      }
+      setStatus(msg, true);
     } finally {
       setLoading(false);
     }

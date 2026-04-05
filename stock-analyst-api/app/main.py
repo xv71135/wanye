@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -6,12 +8,20 @@ from pydantic import BaseModel, Field
 from app.config import DEMO_ACCESS_TOKEN, MINIMAX_API_KEY
 from app.graph import run_stock_analyst_pipeline
 
+# 浏览器从 https://3737-k.info 直连 https://api.3737-k.info 为跨域；不可再用 allow_origins=["*"] 且 allow_credentials=True（规范禁止，浏览器会整段失败 → Failed to fetch）
+_default_cors = "https://3737-k.info,https://www.3737-k.info,https://wanye-etf.pages.dev,http://127.0.0.1:5500,http://localhost:5173"
+CORS_ORIGINS = [
+    o.strip()
+    for o in os.getenv("CORS_ORIGINS", _default_cors).split(",")
+    if o.strip()
+]
+
 app = FastAPI(title="Stock Analyst Agent API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=CORS_ORIGINS,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
