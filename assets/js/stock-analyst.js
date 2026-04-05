@@ -58,11 +58,12 @@
         body: JSON.stringify({ symbol: symbol, question: question || null }),
       });
 
+      var raw = await res.text();
       var data;
       try {
-        data = await res.json();
+        data = JSON.parse(raw);
       } catch (_) {
-        data = { detail: await res.text() };
+        data = { detail: raw || "(empty response)" };
       }
 
       if (!res.ok) {
