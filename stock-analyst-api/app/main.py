@@ -21,6 +21,8 @@ app = FastAPI(title="Stock Analyst Agent API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
+    # 与 apex / www / 任意子域页面互跨时更稳（Origin 只会是页面域，不会是 api.*）
+    allow_origin_regex=r"^https://([\w-]+\.)*3737-k\.info$",
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
