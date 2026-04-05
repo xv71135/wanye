@@ -12,8 +12,7 @@
   <link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/stock-analyst.html">
   <link rel="icon" type="image/png" href="/assets/mascot-trio-official.png">
   <link rel="stylesheet" href="/assets/css/style.css?v=sa2">
-  <!-- 浏览器直连 HTTPS API，绕过 Pages→http:8788 的 1016；不配则仅用 stock-analyst-api-base 同源转发 -->
-  <meta name="stock-analyst-api-direct" content="https://api.3737-k.info">
+  <!-- 同源 /api：由 Pages 转发至 https://api.3737-k.info，避免浏览器跨域 Failed to fetch。勿加 stock-analyst-api-direct。 -->
   <meta name="stock-analyst-api-base" content="https://3737-k.info/api">
 </head>
 <body class="sa-page">
@@ -129,6 +128,6 @@
     window.SA_MSG_LOADING = "正在执行 LangGraph 流水线（可能需要约一分钟）…";
     window.SA_MSG_DONE = "已完成。";
   </script>
-  <script src="/assets/js/stock-analyst.js?v=13" defer></script>
+  <script src="/assets/js/stock-analyst.js?v=14" defer></script>
 </body>
 </html>

@@ -1,19 +1,22 @@
 /**
- * POST /api/analyze — edge proxy to VPS FastAPI (same-origin from the HTTPS page).
+ * POST /api/analyze — edge proxy to VPS FastAPI (browser calls same-origin /api only).
  *
- * Do NOT use resolveOverride with a raw IP; Cloudflare requires a hostname in your zone.
- * Order: try bare IP first, then vps-api hostname (grey-cloud A record).
+ * Prefer HTTPS API host (443) first — Cloudflare edge often cannot reach http://IP:8788 (1016),
+ * and browser direct to api.* triggers CORS / network quirks → Failed to fetch.
  *
- * Optional: Pages project → Settings → Environment variables:
- *   VPS_ANALYZE_BASES = http://139.199.212.59:8788,http://vps-api.3737-k.info:8788
- * (no trailing slashes; overrides defaults)
+ * Optional env VPS_ANALYZE_BASES = comma-separated bases, no trailing slash.
  */
+const API_PUBLIC_HTTPS = "https://api.3737-k.info";
 const VPS_IP = "139.199.212.59";
 const VPS_HOST = "vps-api.3737-k.info";
 const VPS_PORT = 8788;
 
 function defaultBases() {
-  return [`http://${VPS_IP}:${VPS_PORT}`, `http://${VPS_HOST}:${VPS_PORT}`];
+  return [
+    API_PUBLIC_HTTPS,
+    `http://${VPS_IP}:${VPS_PORT}`,
+    `http://${VPS_HOST}:${VPS_PORT}`,
+  ];
 }
 
 /** @param {Record<string, unknown> | undefined} env */
@@ -52,7 +55,7 @@ export async function onRequestPost({ request, env }) {
   if (tok) hdr.set("X-Demo-Token", tok);
 
   const hint =
-    "边缘无法连上 VPS。请确认：1) 腾讯云安全组放行 8788；2) systemd 中 uvicorn 监听 0.0.0.0:8788；3) 浏览器打开 https://你的域名/api/health 看边缘探测结果；4) 若仍失败，在 VPS 上配置 HTTPS（Nginx 证书）后，于页面 head 增加 meta stock-analyst-api-direct 指向 https API 根地址，浏览器将直连 API、绕过本转发。";
+    "边缘无法连上 API。请确认 https://api.3737-k.info/health 可访问；Nginx proxy_read_timeout≥300s；VPS 上 stock-analyst-api 已重启。页面应使用同源 /api（勿用 stock-analyst-api-direct 直连）以避免浏览器跨域。";
 
   let last = { text: JSON.stringify({ detail: "all backends failed", hint }), status: 502 };
 

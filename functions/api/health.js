@@ -4,12 +4,17 @@
  *
  * Env VPS_ANALYZE_BASES — same as analyze.js (comma-separated base URLs).
  */
+const API_PUBLIC_HTTPS = "https://api.3737-k.info";
 const VPS_IP = "139.199.212.59";
 const VPS_HOST = "vps-api.3737-k.info";
 const VPS_PORT = 8788;
 
 function defaultBases() {
-  return [`http://${VPS_IP}:${VPS_PORT}`, `http://${VPS_HOST}:${VPS_PORT}`];
+  return [
+    API_PUBLIC_HTTPS,
+    `http://${VPS_IP}:${VPS_PORT}`,
+    `http://${VPS_HOST}:${VPS_PORT}`,
+  ];
 }
 
 /** @param {Record<string, unknown> | undefined} env */

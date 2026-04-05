@@ -12,8 +12,7 @@
   <link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/stock-analyst.html">
   <link rel="icon" type="image/png" href="/assets/mascot-trio-official.png">
   <link rel="stylesheet" href="/assets/css/style.css?v=sa2">
-  <!-- Browser calls HTTPS API directly (avoids Pages→http:8788 1016); omit to use same-origin proxy only -->
-  <meta name="stock-analyst-api-direct" content="https://api.3737-k.info">
+  <!-- Same-origin /api → Pages proxies to https://api.3737-k.info (no browser CORS). Do not set stock-analyst-api-direct. -->
   <meta name="stock-analyst-api-base" content="https://3737-k.info/api">
 </head>
 <body class="sa-page">
@@ -130,6 +129,6 @@
     window.SA_MSG_LOADING = "Running LangGraph pipeline (may take a minute)…";
     window.SA_MSG_DONE = "Finished.";
   </script>
-  <script src="/assets/js/stock-analyst.js?v=13" defer></script>
+  <script src="/assets/js/stock-analyst.js?v=14" defer></script>
 </body>
 </html>

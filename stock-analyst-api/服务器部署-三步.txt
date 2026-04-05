@@ -53,11 +53,10 @@
     https://3737-k.info/api
   不要改成 http://IP:8788（https 页面会混合内容拦截）。
 
-  若线上长期 502、但本机 curl 公网 IP:8788/health 正常：
-  在 VPS 上用 Nginx + Let’s Encrypt 做 HTTPS 反代到 127.0.0.1:8788，
-  然后在 zh/stock-analyst.html、en/stock-analyst.html 的 <head> 里增加（无尾斜杠）：
-    <meta name="stock-analyst-api-direct" content="https://你的域名">
-  保存部署后，浏览器会直连 FastAPI，不再经过 Pages 函数转发。
+  在 VPS 上用 Nginx + Let’s Encrypt 为 api 子域做 HTTPS 反代到 127.0.0.1:8788 后，
+  Cloudflare Pages 函数会优先请求 https://api.你的域名（见仓库 functions/api/analyze.js）。
+  股票页请只保留 meta stock-analyst-api-base = https://3737-k.info/api，不要设置 stock-analyst-api-direct，
+  以免浏览器跨域出现 Failed to fetch。
 
   诊断：浏览器打开 https://3737-k.info/api/health 看边缘能否连上各后端。
 
