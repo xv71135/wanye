@@ -28,6 +28,19 @@ class AnalyzeResponse(BaseModel):
     meta: dict
 
 
+@app.get("/")
+def root():
+    """根路径无分析接口；浏览器打开 IP:8788 时给出可用端点，避免误以为服务未启动。"""
+    return {
+        "service": "Stock Analyst Agent API",
+        "endpoints": {
+            "GET /health": "健康检查",
+            "POST /analyze": "股票分析（JSON: symbol, question?）",
+            "GET /docs": "OpenAPI 文档",
+        },
+    }
+
+
 @app.get("/health")
 def health():
     return {

@@ -62,7 +62,9 @@
         if (Array.isArray(err)) {
           err = err.map(function (x) { return x.msg || JSON.stringify(x); }).join("; ");
         }
-        setStatus(String(err), true);
+        err = String(err);
+        if (data.hint) err = err + " " + String(data.hint);
+        setStatus(err, true);
         return;
       }
 
