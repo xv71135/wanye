@@ -90,7 +90,7 @@ a:hover {
   color: var(--px-bg-deep);
   z-index: 100000;
   font-family: var(--font-title);
-  font-size: 0.55rem;
+  font-size: 0.75rem;
 }
 
 .skip-link:focus {
@@ -145,7 +145,7 @@ a:hover {
 
 .logo-text {
   font-family: var(--font-title);
-  font-size: 0.52rem;
+  font-size: 0.72rem;
   line-height: 1.55;
   color: var(--px-yellow);
   text-shadow: 2px 2px 0 var(--px-shadow);
@@ -203,7 +203,7 @@ a:hover {
 
 .lang-switch a {
   font-family: var(--font-title);
-  font-size: 0.45rem;
+  font-size: 0.65rem;
   padding: 8px 12px;
   color: var(--px-muted);
   text-decoration: none;
@@ -229,7 +229,7 @@ a:hover {
 
 .hero-eyebrow {
   font-family: var(--font-title);
-  font-size: 0.5rem;
+  font-size: 0.7rem;
   line-height: 1.8;
   color: var(--px-pink);
   text-transform: uppercase;
@@ -344,7 +344,7 @@ a:hover {
   justify-content: center;
   padding: 12px 22px;
   font-family: var(--font-title);
-  font-size: 0.55rem;
+  font-size: 0.75rem;
   line-height: 1.4;
   border: 4px solid var(--px-border-dark);
   cursor: pointer;
@@ -542,7 +542,7 @@ a:hover {
 
 .card h3 {
   font-family: var(--font-title);
-  font-size: 0.52rem;
+  font-size: 0.72rem;
   line-height: 1.6;
   margin: 0 0 10px;
   color: var(--px-cyan);
@@ -574,7 +574,7 @@ a:hover {
 
 .agent-category-title {
   font-family: var(--font-title);
-  font-size: clamp(0.42rem, 1.6vw, 0.52rem);
+  font-size: clamp(0.55rem, 2vw, 0.72rem);
   line-height: 1.5;
   color: var(--px-cyan);
   margin: 0 0 18px;
@@ -582,6 +582,14 @@ a:hover {
   border-left: 5px solid var(--px-yellow);
   text-shadow: 2px 2px 0 var(--px-shadow);
   background: linear-gradient(90deg, rgba(92, 255, 215, 0.08), transparent);
+}
+
+/*  Live demo category highlight */
+.agent-category-title--live {
+  color: var(--px-cyan);
+  border-left-color: var(--px-cyan);
+  background: linear-gradient(90deg, rgba(92, 255, 215, 0.15), transparent);
+  text-shadow: 0 0 10px var(--px-cyan), 2px 2px 0 var(--px-shadow);
 }
 
 .agent-grid {
@@ -629,7 +637,7 @@ a:hover {
 
 .agent-card h4 {
   font-family: var(--font-title);
-  font-size: 0.48rem;
+  font-size: 0.6rem;
   line-height: 1.55;
   margin: 0 0 8px;
   color: var(--px-yellow);
@@ -647,7 +655,7 @@ a:hover {
   display: inline-block;
   margin-top: 14px;
   font-family: var(--font-title);
-  font-size: 0.38rem;
+  font-size: 0.65rem;
   line-height: 1.4;
   padding: 6px 10px;
   color: #9a92a8;
@@ -672,7 +680,7 @@ details.faq-item {
 details.faq-item summary {
   cursor: pointer;
   font-family: var(--font-title);
-  font-size: 0.48rem;
+  font-size: 0.6rem;
   line-height: 1.7;
   padding: 14px 40px 14px 14px;
   list-style: none;
@@ -891,7 +899,7 @@ details.faq-item .faq-a strong {
 
 .sa-output-wrap h3 {
   font-family: var(--font-title);
-  font-size: 0.52rem;
+  font-size: 0.72rem;
   color: var(--px-yellow);
   margin: 0 0 12px;
 }
