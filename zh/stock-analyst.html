@@ -1,23 +1,23 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>股票分析师智能体（演示）｜Agentic Labs</title>
-  <meta name="description" content="证券研究风格 AI 演示：延迟行情、新闻 RSS、LangGraph 多步流水线、MiniMax M2.5。不构成投资建议。">
+  <title>鑲＄エ鍒嗘瀽甯堟櫤鑳戒綋锛堟紨绀猴級锝淎gentic Labs</title>
+  <meta name="description" content="璇佸埜鐮旂┒椋庢牸 AI 婕旂ず锛氬欢杩熻鎯呫€佹柊闂?RSS銆丩angGraph 澶氭娴佹按绾裤€丮iniMax M2.5銆備笉鏋勬垚鎶曡祫寤鸿銆?>
   <meta name="theme-color" content="#120a1f">
   <link rel="canonical" href="https://3737-k.info/zh/stock-analyst.html">
   <link rel="alternate" hreflang="en" href="https://3737-k.info/en/stock-analyst.html">
   <link rel="alternate" hreflang="zh-CN" href="https://3737-k.info/zh/stock-analyst.html">
   <link rel="alternate" hreflang="x-default" href="https://3737-k.info/en/stock-analyst.html">
   <link rel="icon" type="image/png" href="/assets/mascot-trio-official.png">
-  <link rel="stylesheet" href="/assets/css/style.css?v=sa2">
-  <!-- direct：浏览器直连 API，流水线可跑数分钟（Nginx 300s）；同源 /api 受 Cloudflare Function 子请求时长限制易 502。VPS 须已部署 CORS 白名单含本域。 -->
+  <link rel="stylesheet" href="/assets/css/style.css?v=sa3">
+  <!-- direct锛氭祻瑙堝櫒鐩磋繛 API锛屾祦姘寸嚎鍙窇鏁板垎閽燂紙Nginx 300s锛夛紱鍚屾簮 /api 鍙?Cloudflare Function 瀛愯姹傛椂闀块檺鍒舵槗 502銆俈PS 椤诲凡閮ㄧ讲 CORS 鐧藉悕鍗曞惈鏈煙銆?-->
   <meta name="stock-analyst-api-direct" content="https://api.3737-k.info">
   <meta name="stock-analyst-api-base" content="https://3737-k.info/api">
 </head>
 <body class="sa-page">
-  <a class="skip-link" href="#main">跳到正文</a>
+  <a class="skip-link" href="#main">璺冲埌姝ｆ枃</a>
 
   <header class="site-header">
     <div class="header-inner">
@@ -25,13 +25,13 @@
         <img class="logo-mascot-img" src="/assets/mascot-trio-official.png" width="364" height="367" alt="">
         <span class="logo-text">Agentic <span>Labs</span></span>
       </a>
-      <nav class="nav-main" aria-label="主导航">
-        <a href="/zh/index.html#agents">智能体</a>
-        <a href="/zh/stock-analyst.html" aria-current="page">股票分析师</a>
-        <a href="/zh/index.html#directory">职业图鉴</a>
-        <div class="lang-switch" role="group" aria-label="语言">
+      <nav class="nav-main" aria-label="涓诲鑸?>
+        <a href="/zh/index.html#agents">鏅鸿兘浣?/a>
+        <a href="/zh/stock-analyst.html" aria-current="page">鑲＄エ鍒嗘瀽甯?/a>
+        <a href="/zh/index.html#directory">鑱屼笟鍥鹃壌</a>
+        <div class="lang-switch" role="group" aria-label="璇█">
           <a href="/en/stock-analyst.html">EN</a>
-          <a href="/zh/stock-analyst.html" aria-current="true">中文</a>
+          <a href="/zh/stock-analyst.html" aria-current="true">涓枃</a>
         </div>
       </nav>
     </div>
@@ -42,41 +42,37 @@
       <div class="section-inner section-inner--sa">
         <header class="sa-hero">
           <p class="sa-lang-switch"><a href="/en/stock-analyst.html">English</a></p>
-          <h1 id="sa-title" class="section-title sa-title">股票分析师智能体</h1>
+          <h1 id="sa-title" class="section-title sa-title">鑲＄エ鍒嗘瀽甯堟櫤鑳戒綋</h1>
           <p class="sa-lead">
-            公开延迟行情（<strong>yfinance</strong>）与 <strong>RSS</strong> 标题，经 <strong>LangGraph</strong> 四步生成中文研报；模型为 <strong>MiniMax</strong>（<code>MiniMax-M2.5</code>）。<strong>不构成投资建议。</strong>
+            鍏紑寤惰繜琛屾儏锛?strong>yfinance</strong>锛変笌 <strong>RSS</strong> 鏍囬锛岀粡 <strong>LangGraph</strong> 鍥涙鐢熸垚涓枃鐮旀姤锛涙ā鍨嬩负 <strong>MiniMax</strong>锛?code>MiniMax-M2.5</code>锛夈€?strong>涓嶆瀯鎴愭姇璧勫缓璁€?/strong>
           </p>
         </header>
 
         <details class="sa-about">
-          <summary class="sa-about-summary">开源参考与数据说明</summary>
+          <summary class="sa-about-summary">寮€婧愬弬鑰冧笌鏁版嵁璇存槑</summary>
           <div class="sa-provenance" role="note">
-            <strong>说明。</strong>
-            本页<strong>并非</strong>下列仓库 fork，为本站自研组合。参考：
-            <a href="https://github.com/TauricResearch/TradingAgents" rel="noopener noreferrer">TauricResearch/TradingAgents</a>、
-            <a href="https://github.com/langchain-ai/langgraph" rel="noopener noreferrer">langchain-ai/langgraph</a>。
-            数据为公开延迟行情与 RSS，非付费终端实时行情。
-          </div>
+            <strong>璇存槑銆?/strong>
+            鏈〉<strong>骞堕潪</strong>涓嬪垪浠撳簱 fork锛屼负鏈珯鑷爺缁勫悎銆傚弬鑰冿細
+            <a href="https://github.com/TauricResearch/TradingAgents" rel="noopener noreferrer">TauricResearch/TradingAgents</a>銆?            <a href="https://github.com/langchain-ai/langgraph" rel="noopener noreferrer">langchain-ai/langgraph</a>銆?            鏁版嵁涓哄叕寮€寤惰繜琛屾儏涓?RSS锛岄潪浠樿垂缁堢瀹炴椂琛屾儏銆?          </div>
         </details>
 
-        <div class="sa-graph" aria-label="ComfyUI 风格节点：输入、流水线、输出">
+        <div class="sa-graph" aria-label="ComfyUI 椋庢牸鑺傜偣锛氳緭鍏ャ€佹祦姘寸嚎銆佽緭鍑?>
           <div class="sa-graph-col sa-graph-col--left">
             <div class="sa-node sa-node--input">
               <div class="sa-node-head">
                 <span class="sa-node-dot sa-node-dot--in" aria-hidden="true"></span>
-                <span class="sa-node-title">流水线输入</span>
-                <span class="sa-node-port sa-node-port--out" aria-hidden="true" title="输出"></span>
+                <span class="sa-node-title">娴佹按绾胯緭鍏?/span>
+                <span class="sa-node-port sa-node-port--out" aria-hidden="true" title="杈撳嚭"></span>
               </div>
               <div class="sa-node-body">
                 <form id="sa-form" class="sa-form-grid" autocomplete="off">
-                  <label>股票代码
-                    <input id="sa-symbol" name="symbol" type="text" placeholder="如 600519、000001、AAPL" required maxlength="32">
+                  <label>鑲＄エ浠ｇ爜
+                    <input id="sa-symbol" name="symbol" type="text" placeholder="濡?600519銆?00001銆丄APL" required maxlength="32">
                   </label>
-                  <label>可选追问
-                    <textarea id="sa-question" name="question" rows="4" maxlength="2000" placeholder="例如：应优先关注哪些风险？"></textarea>
+                  <label>鍙€夎拷闂?                    <textarea id="sa-question" name="question" rows="4" maxlength="2000" placeholder="渚嬪锛氬簲浼樺厛鍏虫敞鍝簺椋庨櫓锛?></textarea>
                   </label>
                   <div class="sa-actions">
-                    <button type="submit" class="btn btn-primary sa-run-btn" id="sa-submit">运行流水线</button>
+                    <button type="submit" class="btn btn-primary sa-run-btn" id="sa-submit">杩愯娴佹按绾?/button>
                   </div>
                 </form>
               </div>
@@ -86,18 +82,18 @@
           <div class="sa-graph-rail" aria-hidden="true">
             <div class="sa-rail-line"></div>
             <ol class="sa-rail-steps">
-              <li><span class="sa-rail-dot"></span>拉数</li>
-              <li><span class="sa-rail-dot"></span>校验</li>
-              <li><span class="sa-rail-dot"></span>写稿</li>
-              <li><span class="sa-rail-dot"></span>复核</li>
+              <li><span class="sa-rail-dot"></span>鎷夋暟</li>
+              <li><span class="sa-rail-dot"></span>鏍￠獙</li>
+              <li><span class="sa-rail-dot"></span>鍐欑</li>
+              <li><span class="sa-rail-dot"></span>澶嶆牳</li>
             </ol>
           </div>
 
           <div class="sa-graph-col sa-graph-col--right">
             <div class="sa-node sa-node--output">
               <div class="sa-node-head">
-                <span class="sa-node-port sa-node-port--in" aria-hidden="true" title="输入"></span>
-                <span class="sa-node-title">研报输出</span>
+                <span class="sa-node-port sa-node-port--in" aria-hidden="true" title="杈撳叆"></span>
+                <span class="sa-node-title">鐮旀姤杈撳嚭</span>
                 <span class="sa-node-dot sa-node-dot--out" aria-hidden="true"></span>
               </div>
               <div class="sa-node-body">
@@ -114,21 +110,22 @@
   <footer class="site-footer">
     <div class="footer-mascot">
       <img src="/assets/mascot-trio-official.png" width="364" height="367" alt="" loading="lazy" decoding="async">
-      <span>© <span id="y"></span> Agentic Labs</span>
+      <span>漏 <span id="y"></span> Agentic Labs</span>
     </div>
     <div class="footer-links">
-      <a href="/zh/index.html">首页</a>
+      <a href="/zh/index.html">棣栭〉</a>
       <a href="/sitemap.xml">Sitemap</a>
     </div>
   </footer>
 
   <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
   <script>
-    window.SA_MSG_NO_API = "请在本页 head 中的 meta「stock-analyst-api-base」填写已部署的 FastAPI 根地址（无末尾斜杠），保存后刷新。";
-    window.SA_MSG_NO_SYMBOL = "请输入股票代码。";
-    window.SA_MSG_LOADING = "正在执行 LangGraph 流水线（可能需要约一分钟）…";
-    window.SA_MSG_DONE = "已完成。";
+    window.SA_MSG_NO_API = "璇峰湪鏈〉 head 涓殑 meta銆宻tock-analyst-api-base銆嶅～鍐欏凡閮ㄧ讲鐨?FastAPI 鏍瑰湴鍧€锛堟棤鏈熬鏂滄潬锛夛紝淇濆瓨鍚庡埛鏂般€?;
+    window.SA_MSG_NO_SYMBOL = "璇疯緭鍏ヨ偂绁ㄤ唬鐮併€?;
+    window.SA_MSG_LOADING = "姝ｅ湪鎵ц LangGraph 娴佹按绾匡紙鍙兘闇€瑕佺害涓€鍒嗛挓锛夆€?;
+    window.SA_MSG_DONE = "宸插畬鎴愩€?;
   </script>
-  <script src="/assets/js/stock-analyst.js?v=16" defer></script>
+  <script src="/assets/js/stock-analyst.js?v=17" defer></script>
 </body>
 </html>
+
