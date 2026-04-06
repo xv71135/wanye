@@ -46,19 +46,32 @@
 轻量应用服务器 → 防火墙 → 添加规则：TCP 8788，来源 0.0.0.0/0（或仅你的 IP）。
 
 ================================================================================
-网站里 meta 填什么
+网站里 meta 填什么（股票页）
 ================================================================================
 
-  默认（经 Cloudflare Pages 转发）：页面里已是
-    https://3737-k.info/api
+  推荐：同时保留
+    stock-analyst-api-direct = https://api.你的域名
+    stock-analyst-api-base   = https://你的站点/api
+  页面会优先直连 API（长耗时更稳）；失败时再回退同源 /api（见 functions/api/analyze.js）。
+
   不要改成 http://IP:8788（https 页面会混合内容拦截）。
 
-  在 VPS 上用 Nginx + Let’s Encrypt 为 api 子域做 HTTPS 反代到 127.0.0.1:8788 后，
-  Cloudflare Pages 函数会优先请求 https://api.你的域名（见仓库 functions/api/analyze.js）。
-  股票页请只保留 meta stock-analyst-api-base = https://3737-k.info/api，不要设置 stock-analyst-api-direct，
-  以免浏览器跨域出现 Failed to fetch。
+  在 VPS 上用 Nginx + Let’s Encrypt 为 api 子域做 HTTPS 反代到 127.0.0.1:8788。
+  Cloudflare Workers 无法稳定用 http://裸 IP 回源（常 1016），回源必须是可验证的 HTTPS 主机名。
 
-  诊断：浏览器打开 https://3737-k.info/api/health 看边缘能否连上各后端。
+  诊断：浏览器打开 https://你的站点/api/health 看边缘探测各 base 的 status。
+
+================================================================================
+若 /api/health 里 api 子域 status=525（SSL 握手失败）
+================================================================================
+
+  原因：api 子域在 Cloudflare 为「小橙云」代理时，边缘访问源站 HTTPS 证书不匹配或 SSL 模式不对。
+
+  推荐修法 A：Cloudflare DNS 里将 api 这条 A 记录改为「仅限 DNS」（灰云），等生效后，
+  浏览器与 Worker 会直连你的 VPS。VPS 上须已有 Let's Encrypt（或其它受信）证书，且 server_name
+  含 api.你的域名，443 反代到 127.0.0.1:8788。
+
+  修法 B：保持橙云，在源站安装与 api 子域匹配的证书，Cloudflare SSL/TLS 设为「完全(严格)」。
 
 ================================================================================
 Nginx 反代 api 域名：务必加长超时（默认约 60s，流水线一久会断 → 浏览器 Failed to fetch）

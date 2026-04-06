@@ -7,16 +7,12 @@
  * Optional env VPS_ANALYZE_BASES = comma-separated bases, no trailing slash.
  */
 const API_PUBLIC_HTTPS = "https://api.3737-k.info";
-const VPS_IP = "139.199.212.59";
-// Cloudflare Workers cannot reliably call arbitrary high ports (e.g. 8788),
-// so fallback must use origin standard web port.
-const VPS_HTTP_ORIGIN = `http://${VPS_IP}`;
+// Workers 对裸 IP 的 fetch 常返回 1016，勿再默认回源 http://IP。
+const HINT_SSL =
+  "525：Cloudflare 橙云与源站证书/SSL 模式不匹配。将 api 子域改为「DNS 仅」（灰云）并在 VPS 用 Let's Encrypt 配好 api 的 443；或保持橙云且源站证书域名匹配并把 SSL 设为「完全(严格)」。Pages 可设环境变量 VPS_ANALYZE_BASES 指向已可用的 HTTPS 源。";
 
 function defaultBases() {
-  return [
-    API_PUBLIC_HTTPS,
-    VPS_HTTP_ORIGIN,
-  ];
+  return [API_PUBLIC_HTTPS];
 }
 
 /** @param {Record<string, unknown> | undefined} env */
@@ -43,8 +39,17 @@ function looksLikeCf1016(text) {
 function shouldRetry(res, text) {
   const ct = (res.headers.get("Content-Type") || "").toLowerCase();
   if (ct.includes("application/json")) return false;
+  if (res.status === 525 || res.status === 526) return false;
   if (res.status >= 502 && res.status <= 530) return true;
   return looksLikeCf1016(text);
+}
+
+/** Turn CF HTML error pages into JSON so the stock page never shows raw 502 HTML. */
+function jsonSslHelp(status) {
+  return JSON.stringify({
+    detail: `边缘回源失败（HTTP ${status}）。${HINT_SSL}`,
+    hint: HINT_SSL,
+  });
 }
 
 export async function onRequestPost({ request, env }) {
@@ -54,8 +59,7 @@ export async function onRequestPost({ request, env }) {
   const tok = request.headers.get("X-Demo-Token");
   if (tok) hdr.set("X-Demo-Token", tok);
 
-  const hint =
-    "边缘无法连上 API。请确认 https://api.3737-k.info/health 可访问；Nginx proxy_read_timeout≥300s；VPS 上 stock-analyst-api 已重启。页面应使用同源 /api（勿用 stock-analyst-api-direct 直连）以避免浏览器跨域。";
+  const hint = HINT_SSL;
 
   let last = { text: JSON.stringify({ detail: "all backends failed", hint }), status: 502 };
 
@@ -67,6 +71,15 @@ export async function onRequestPost({ request, env }) {
         body,
       });
       const text = await res.text();
+      if (res.status === 525 || res.status === 526) {
+        return new Response(jsonSslHelp(res.status), {
+          status: 503,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*",
+          },
+        });
+      }
       if (!shouldRetry(res, text)) {
         return new Response(text, {
           status: res.status,
