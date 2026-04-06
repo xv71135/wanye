@@ -55,7 +55,9 @@
     try {
       var res = await fetch(base + "/analyze", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        credentials: "omit",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ symbol: symbol, question: question || null }),
       });
 
