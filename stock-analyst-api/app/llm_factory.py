@@ -39,12 +39,20 @@ class TokenPlanChatModel:
         system_parts: list[str] = []
         user_parts: list[str] = []
         for m in messages:
-            content = getattr(m, "content", "")
-            role = m.__class__.__name__.lower()
-            if "system" in role:
-                system_parts.append(str(content))
+            if isinstance(m, dict):
+                role = str(m.get("role", "")).lower()
+                content = m.get("content", "")
             else:
-                user_parts.append(str(content))
+                role = m.__class__.__name__.lower()
+                content = getattr(m, "content", "")
+
+            text = str(content).strip()
+            if not text:
+                continue
+            if role == "system" or "system" in role:
+                system_parts.append(text)
+            else:
+                user_parts.append(text)
 
         payload = {
             "model": MINIMAX_MODEL,
