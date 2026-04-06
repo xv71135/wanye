@@ -1,7 +1,8 @@
 (function () {
   "use strict";
 
-  function apiBase() {
+  function apiBases() {
+    var bases = [];
     var directEl = document.querySelector('meta[name="stock-analyst-api-direct"]');
     var direct = directEl && directEl.content ? directEl.content.trim().replace(/\/$/, "") : "";
     if (direct) {
@@ -10,14 +11,15 @@
           "[stock-analyst] stock-analyst-api-direct 使用 http 在 https 页面会被浏览器拦截；请改为 https API 或删除该 meta 以使用同源 /api。"
         );
       }
-      return direct;
+      bases.push(direct);
     }
     var meta = document.querySelector('meta[name="stock-analyst-api-base"]');
     var fromMeta = meta && meta.content ? meta.content.trim() : "";
-    if (fromMeta) return fromMeta.replace(/\/$/, "");
-    if (typeof window.STOCK_ANALYST_API_BASE === "string" && window.STOCK_ANALYST_API_BASE.trim())
-      return window.STOCK_ANALYST_API_BASE.trim().replace(/\/$/, "");
-    return "";
+    if (fromMeta) bases.push(fromMeta.replace(/\/$/, ""));
+    if (typeof window.STOCK_ANALYST_API_BASE === "string" && window.STOCK_ANALYST_API_BASE.trim()) {
+      bases.push(window.STOCK_ANALYST_API_BASE.trim().replace(/\/$/, ""));
+    }
+    return bases.filter(function (v, i, arr) { return v && arr.indexOf(v) === i; });
   }
 
   function setStatus(msg, isErr) {
@@ -34,12 +36,12 @@
 
   document.getElementById("sa-form").addEventListener("submit", async function (e) {
     e.preventDefault();
-    var base = apiBase();
+    var bases = apiBases();
     var symbol = (document.getElementById("sa-symbol").value || "").trim();
     var question = (document.getElementById("sa-question").value || "").trim();
     var out = document.getElementById("sa-output");
 
-    if (!base) {
+    if (!bases.length) {
       setStatus(window.SA_MSG_NO_API || "Configure API base URL (meta stock-analyst-api-base).", true);
       return;
     }
@@ -53,20 +55,44 @@
     out.textContent = "";
 
     try {
-      var res = await fetch(base + "/analyze", {
-        method: "POST",
-        mode: "cors",
-        credentials: "omit",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ symbol: symbol, question: question || null }),
-      });
+      var res = null;
+      var raw = "";
+      var data = null;
+      var lastErr = "";
+      for (var i = 0; i < bases.length; i++) {
+        var base = bases[i];
+        try {
+          res = await fetch(base + "/analyze", {
+            method: "POST",
+            mode: "cors",
+            credentials: "omit",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({ symbol: symbol, question: question || null }),
+          });
+        } catch (e) {
+          lastErr = String((e && e.message) || e || "Failed to fetch");
+          continue;
+        }
 
-      var raw = await res.text();
-      var data;
-      try {
-        data = JSON.parse(raw);
-      } catch (_) {
-        data = { detail: raw || "(empty response)" };
+        raw = await res.text();
+        try {
+          data = JSON.parse(raw);
+        } catch (_) {
+          data = { detail: raw || "(empty response)" };
+        }
+
+        // If direct path fails at network level or returns gateway HTML, try fallback base.
+        if (!res.ok) {
+          var preview = String((data && (data.detail || data.message)) || raw || "");
+          if ((/^[\s]*<!DOCTYPE/i.test(preview) || /cf-error-details|cloudflare/i.test(preview)) && i < bases.length - 1) {
+            continue;
+          }
+        }
+        break;
+      }
+
+      if (!res) {
+        throw new Error(lastErr || "Failed to fetch");
       }
 
       if (!res.ok) {
@@ -90,7 +116,7 @@
       var msg = String(err.message || err);
       if (msg === "Failed to fetch") {
         msg =
-          "请求未到达服务器（Failed to fetch）。常见：① 跨域 CORS（API 须允许 https://3737-k.info）；② Nginx 默认约 60s 超时，流水线更长会被断开；③ 证书/网络。请更新 VPS 上 API 代码并重启，且在 Nginx location 中加 proxy_read_timeout 300s；";
+          "请求未到达服务器（Failed to fetch）。已尝试直连 API 与同源 /api 回退。请检查：1) https://api.3737-k.info/health 可访问；2) Nginx/防火墙；3) Pages 是否最新部署。";
       }
       setStatus(msg, true);
     } finally {
