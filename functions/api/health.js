@@ -6,14 +6,12 @@
  */
 const API_PUBLIC_HTTPS = "https://api.3737-k.info";
 const VPS_IP = "139.199.212.59";
-const VPS_HOST = "vps-api.3737-k.info";
-const VPS_PORT = 8788;
+const VPS_HTTP_ORIGIN = `http://${VPS_IP}`;
 
 function defaultBases() {
   return [
     API_PUBLIC_HTTPS,
-    `http://${VPS_IP}:${VPS_PORT}`,
-    `http://${VPS_HOST}:${VPS_PORT}`,
+    VPS_HTTP_ORIGIN,
   ];
 }
 
