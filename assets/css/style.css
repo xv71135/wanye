@@ -1177,9 +1177,27 @@ details.faq-item .faq-a strong {
   white-space: pre-wrap;
   word-break: break-word;
   margin: 0;
-  font-size: 1.15rem;
-  line-height: 1.45;
+  font-family: var(--font-pixel);
+  font-size: 1.25rem;
+  line-height: 1.4;
   color: var(--px-text);
+  min-height: 11rem;
+  max-height: 48vh;
+  overflow: auto;
+  padding-right: 6px;
+}
+
+.sa-output--typing::after {
+  content: "▋";
+  display: inline-block;
+  margin-left: 4px;
+  color: var(--px-cyan);
+  animation: sa-blink 0.9s steps(1, end) infinite;
+}
+
+@keyframes sa-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 .sa-provenance {
@@ -1207,14 +1225,74 @@ details.faq-item .faq-a strong {
 
 @media (max-width: 640px) {
   body {
-    font-size: 1.2rem;
+    font-size: 1.08rem;
   }
 
   .hero h1 {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
+    line-height: 1.55;
   }
 
   .nav-main {
     width: 100%;
+    gap: 8px 12px;
+  }
+
+  .site-header {
+    position: static;
+  }
+
+  .header-inner {
+    padding: 10px 12px;
+  }
+
+  .section {
+    padding: 30px 12px;
+  }
+
+  .sa-page .section {
+    padding-top: 20px;
+    padding-bottom: 28px;
+  }
+
+  .sa-page h1.section-title.sa-title,
+  .sa-page h1.sa-title {
+    font-size: clamp(1.5rem, 9.2vw, 2rem);
+    margin-bottom: 0.55rem;
+  }
+
+  .sa-lead {
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+
+  .sa-node-body {
+    padding: 0.9rem;
+  }
+
+  .sa-form-grid input,
+  .sa-form-grid textarea {
+    font-size: 1.12rem;
+  }
+
+  .sa-form-grid textarea {
+    min-height: 5.9rem;
+  }
+
+  .sa-run-btn {
+    padding: 11px 14px;
+    font-size: 1.06rem;
+  }
+
+  .sa-output {
+    font-size: 1.05rem;
+    min-height: 8.8rem;
+    max-height: 42vh;
+  }
+
+  .site-footer {
+    padding: 14px 12px 20px;
+    font-size: 0.98rem;
+    gap: 8px;
   }
 }

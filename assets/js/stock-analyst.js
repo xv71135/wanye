@@ -1,6 +1,24 @@
 (function () {
   "use strict";
 
+  function sleep(ms) {
+    return new Promise(function (resolve) { setTimeout(resolve, ms); });
+  }
+
+  async function typewriter(el, text, cps) {
+    if (!el) return;
+    var full = String(text || "");
+    var speed = Math.max(10, Number(cps) || 75);
+    var chunk = full.length > 1200 ? 3 : 1;
+    el.classList.add("sa-output--typing");
+    el.textContent = "";
+    for (var i = 0; i < full.length; i += chunk) {
+      el.textContent += full.slice(i, i + chunk);
+      await sleep(1000 / speed);
+    }
+    el.classList.remove("sa-output--typing");
+  }
+
   function apiBases() {
     var bases = [];
     var directEl = document.querySelector('meta[name="stock-analyst-api-direct"]');
@@ -110,7 +128,7 @@
         return;
       }
 
-      out.textContent = data.report_markdown || "";
+      await typewriter(out, data.report_markdown || "", 85);
       setStatus(window.SA_MSG_DONE || "Done.", false);
     } catch (err) {
       var msg = String(err.message || err);
